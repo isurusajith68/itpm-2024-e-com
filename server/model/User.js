@@ -16,15 +16,6 @@ const UserSchema = new mongoose.Schema({
   phoneNumber: {
     type: String,
   },
-  dob: {
-    type: String,
-  },
-  address: {
-    type: String,
-  },
-  idNumber: {
-    type: String,
-  },
   role: {
     type: String,
     enum: [

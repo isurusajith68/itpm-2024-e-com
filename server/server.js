@@ -5,11 +5,15 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import connectMongoDB from "./db/connectMongoDB.js";
 
+import userRouter from "./router/userRouter.js";
+
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use("/auth", userRouter);
 
 dotenv.config();
 
