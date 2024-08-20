@@ -134,8 +134,8 @@ const ProductPage = () => {
                 </div>
               </div>
               <p className=" text-2xl font-bold">LKR : 350,000/=</p>
-              <button className="mx-2 bg-green-600 bottom-4  text-white mt-10 hover:scale-105 duration-100 border border-white rounded-xl px-5 py-1">
-                Order Now
+              <button className="mx-2 font-semibold bg-green-600 bottom-4  text-white mt-10 hover:scale-105 duration-100 border border-white rounded-xl px-5 py-3 hover:text-black">
+                Add to Cart
               </button>
             </div>
           </div>

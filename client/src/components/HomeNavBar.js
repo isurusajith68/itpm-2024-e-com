@@ -10,11 +10,10 @@ import { BsFillCartFill, BsFillSaveFill } from "react-icons/bs";
 import { TbTruckDelivery } from "react-icons/tb";
 import { MdFavorite, MdHelp } from "react-icons/md";
 import { FaUserFriends, FaWallet } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
-
-    const NavBar = () => {
-    const [ nav, setNav ] = useState(false);
-    
+const NavBar = () => {
+  const [nav, setNav] = useState(false);
 
   return (
     <div className="max-w-[1640px] mx-auto flex justify-between items-center p-4">
@@ -23,10 +22,11 @@ import { FaUserFriends, FaWallet } from "react-icons/fa";
         <div onClick={() => setNav(!nav)} className="cursor-pointer">
           <AiOutlineMenu size={30} />
         </div>
-        <h1 className="text-2xl sm:text-3xl lg:text-4xl px-2">
-          E <span className="font-bold text-red-700">Computers</span>
-        </h1>
-        
+        <Link to='/'>
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl px-2">
+            E <span className="font-bold text-red-700">Computers</span>
+          </h1>
+        </Link>
       </div>
       {/* search bar */}
       <div className="bg-gray-200 rounded-full items-center flex px-2 w-[200px] sm:w-[400px] lg:w-[500px]">
@@ -47,11 +47,22 @@ import { FaUserFriends, FaWallet } from "react-icons/fa";
 
       {/* Mobile menu */}
       {/* overlay */}
-      {nav ? <div className="bg-black/80 z-10 h-screen w-full fixed top-0 left-0"></div> : ""}
+      {nav ? (
+        <div className="bg-black/80 z-10 h-screen w-full fixed top-0 left-0"></div>
+      ) : (
+        ""
+      )}
 
       {/* side drawer menu */}
-      <div className={nav ? 'bg-white h-screen fixed top-0 left-0 z-10 duration-600 w-[300px]' : 'bg-white h-screen fixed top-0 left-[-100%] z-10 duration-300 w-[300px]'}>
-        <AiOutlineClose onClick={() => setNav(!nav)}
+      <div
+        className={
+          nav
+            ? "bg-white h-screen fixed top-0 left-0 z-10 duration-600 w-[300px]"
+            : "bg-white h-screen fixed top-0 left-[-100%] z-10 duration-300 w-[300px]"
+        }
+      >
+        <AiOutlineClose
+          onClick={() => setNav(!nav)}
           size={20}
           className="absolute right-4 top-4 cursor-pointer"
         />
@@ -87,6 +98,6 @@ import { FaUserFriends, FaWallet } from "react-icons/fa";
       </div>
     </div>
   );
-}
+};
 
 export default NavBar;
