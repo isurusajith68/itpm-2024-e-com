@@ -22,14 +22,20 @@ export const userLogin = async (req, res) => {
 
 export const userRegisterAdmin = async (req, res) => {
   try {
-    const { username, email, password, role } = req.body;
+    const { username, email, password, phoneNumber, role } = req.body;
 
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     } else {
-      const newUser = await User.create({ username, email, password, role });
+      const newUser = await User.create({
+        username,
+        email,
+        password,
+        role,
+        phoneNumber,
+      });
       res.status(201).json({ user: newUser });
     }
   } catch (error) {
@@ -40,7 +46,7 @@ export const userRegisterAdmin = async (req, res) => {
 export const userRegister = async (req, res) => {
   try {
     const { username, email, phoneNumber, password } = req.body;
-console.log(req.body)
+    console.log(req.body);
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
@@ -56,7 +62,7 @@ console.log(req.body)
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
-    console.log(error)
+    console.log(error);
   }
 };
 
@@ -89,7 +95,7 @@ export const getUserById = async (req, res) => {
 export const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const { username, email, password, role, phoneNumber } = req.body;
+    const { username, email, role, phoneNumber } = req.body;
 
     const user = await User.findById(id);
 
@@ -99,7 +105,6 @@ export const updateUser = async (req, res) => {
 
     user.username = username || user.username;
     user.email = email || user.email;
-    user.password = password || user.password;
     user.role = role || user.role;
     user.phoneNumber = phoneNumber || user.phoneNumber;
 

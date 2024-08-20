@@ -37,7 +37,7 @@ const Login = () => {
         toast.success("Login successfully");
         localStorage.setItem("authUser", JSON.stringify(res.data.user));
         console.log(res.data.user.role);
-        navigate("/dashboard");
+        navigate("/dashboard/staff");
         // if (res.data.user.role === "admin") {
         //   navigate("/dashboard");
         // } else if (res.data.user.role === "patient") {
