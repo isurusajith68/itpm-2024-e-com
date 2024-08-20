@@ -4,25 +4,83 @@ import { Button, Input, Select, SelectItem } from "@nextui-org/react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const formSchema = yup.object().shape({
-  staff: yup.string().required(),
-  basicSalary: yup.number().required(),
-  allowances: yup.number().required(),
-  ot: yup.number().required(),
+  employee: yup.string().required("Staff member is required"),
+  basicSalary: yup
+    .number()
+    .transform((value) => (isNaN(value) ? 0 : value))
+    .required("Basic salary is required")
+    .positive("Basic salary must be a positive number"),
+  allowances: yup
+    .number()
+    .transform((value) => (isNaN(value) ? 0 : value))
+    .required("Allowances are required")
+    .positive("Allowances must be a positive number"),
+  ot: yup
+    .number()
+    .transform((value) => (isNaN(value) ? 0 : value))
+    .required("OT Hours are required")
+    .min(0, "OT Hours cannot be negative"),
+  otPay: yup
+    .number()
+    .transform((value) => (isNaN(value) ? 0 : value))
+    .required("OT Pay is required")
+    .positive("OT Pay must be a positive number"),
+  salary: yup
+    .number()
+    .transform((value) => (isNaN(value) ? 0 : value))
+    .required("Salary is required")
+    .positive("Salary must be a positive number"),
 });
 
 const CalculateSalary = () => {
   const [staff, setStaff] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [calculateSalary, setCalculateSalary] = useState(0);
+  const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    setValue,
+    getValues,
   } = useForm({
     resolver: yupResolver(formSchema),
+    defaultValues: {
+      otPay: 180,
+    },
   });
+
+  const calculate = () => {
+    const data = getValues();
+    const basicSalary = parseFloat(data.basicSalary);
+    const allowances = parseFloat(data.allowances);
+    const ot = parseFloat(data.ot);
+    const otPay = parseFloat(data.otPay);
+
+    const otPayment = ot * otPay;
+    const salary = basicSalary + allowances + otPayment;
+    setCalculateSalary(salary);
+    setValue("salary", salary);
+  };
+
+  const onSubmit = async (data) => {
+    calculate();
+
+    try {
+      await axios.post("http://localhost:5000/salary", data);
+      //   console.log(res.data);
+      toast.success("Salary paid successfully");
+      navigate("/dashboard/salary/list");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     const fetchStaff = async () => {
@@ -39,9 +97,15 @@ const CalculateSalary = () => {
 
     fetchStaff();
   }, []);
-
- 
-  
+  if (loading) {
+    return (
+      <Layout>
+        <div className="flex justify-center items-center h-full">
+          <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
+        </div>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>
@@ -50,19 +114,21 @@ const CalculateSalary = () => {
           <h1 className="text-lg ml-2 font-semibold text-gray-800">
             Calculate Salary
           </h1>
-          <form className="mt-2 flex flex-col gap-2">
+          <form
+            className="mt-2 flex flex-col gap-2"
+            onSubmit={handleSubmit(onSubmit)}
+          >
             <Select
-              items={staff}
               label="Staff Member Name"
               placeholder="Select Staff Member"
               variant="filled"
               className="flex-1"
-              //   errorMessage={errors.staff?.message}
-              //   {...register("staff")}
-              //   isInvalid={errors.staff}
+              {...register("employee")}
+              isInvalid={!!errors.employee}
+              errorMessage={errors.employee?.message}
             >
               {staff.map((item, index) => (
-                <SelectItem key={index} value={item.username}>
+                <SelectItem key={item.username} value={item.username}>
                   {item.username}
                 </SelectItem>
               ))}
@@ -72,55 +138,68 @@ const CalculateSalary = () => {
               placeholder="Enter Basic Salary"
               variant="filled"
               type="number"
-              //   errorMessage={errors.basicSalary?.message}
-              //   {...register("basicSalary")}
-              //   isInvalid={errors.basicSalary}
+              {...register("basicSalary")}
+              isInvalid={!!errors.basicSalary}
+              errorMessage={errors.basicSalary?.message}
             />
             <Input
               label="Allowances"
               placeholder="Enter Allowances"
               variant="filled"
               type="number"
-              //   errorMessage={errors.allowances?.message}
-              //   {...register("allowances")}
-              //   isInvalid={errors.allowances}
+              {...register("allowances")}
+              isInvalid={!!errors.allowances}
+              errorMessage={errors.allowances?.message}
             />
             <div className="flex gap-2">
               <Input
-                label="1 Hours Payment"
-                placeholder="Enter 1 Hours Rate"
-                variant="filled"
+                label="1 Hour Payment"
+                placeholder="Enter 1 Hour Rate"
+                // variant="filled"
                 type="number"
-                value="180"
+                value={getValues("otPay")}
                 disabled
-                className=""
+                color="secondary"
+                {...register("otPay")}
+                isInvalid={!!errors.otPay}
+                errorMessage={errors.otPay?.message}
               />
               <Input
                 label="OT Hours"
                 placeholder="Enter OT Hours"
                 variant="filled"
                 type="number"
-                //   errorMessage={errors.ot?.message}
-                //   {...register("ot")}
-                //   isInvalid={errors.ot}
+                {...register("ot")}
+                isInvalid={!!errors.ot}
+                errorMessage={errors.ot?.message}
               />
             </div>
             <Input
               label="Salary Payment"
-              placeholder="Enter Salary"
-              variant="filled"
+              placeholder="Calculated Salary"
               type="number"
               disabled
-              value="0"
+              color="success"
+              value={calculateSalary}
+              {...register("salary")}
+              isInvalid={!!errors.salary}
+              errorMessage={errors.salary?.message}
             />
-            <div className="flex justify-end">
+            <div className="flex justify-end gap-3">
               <Button
-                type="submit"
+                onClick={calculate}
                 size="large"
-                className="bg-black text-white mt-2"
+                className="bg-red-400 text-white mt-2"
                 loading={isSubmitting}
               >
-                {"Pay"}
+                Calculate Salary
+              </Button>
+              <Button
+                size="large"
+                className="bg-black text-white mt-2"
+                type="submit"
+              >
+                Pay
               </Button>
             </div>
           </form>
@@ -129,4 +208,5 @@ const CalculateSalary = () => {
     </Layout>
   );
 };
+
 export default CalculateSalary;

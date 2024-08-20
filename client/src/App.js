@@ -32,6 +32,7 @@ function App() {
         />
         <Route path="/dashboard/staff/list" element={<DashboardStaffList />} />
         {/* <Route path="/dashboard/products" element={<DashboardProducts />} /> */}
+        
         <Route path="/dashboard/salary" element={<DashboardSalary />} />
         <Route path="/dashboard/salary/add" element={<CalculateSalary />} />
         <Route path="/dashboard/salary/list" element={<SalaryPayments />} />

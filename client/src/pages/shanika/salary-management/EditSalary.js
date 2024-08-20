@@ -1,6 +1,6 @@
+import Layout from "../../../layout/Layout";
+
 const EditSalary = () => {
-  return (
-    <div>EditSalary</div>
-  )
-}
-export default EditSalary
+  return <Layout>EditSalary</Layout>;
+};
+export default EditSalary;

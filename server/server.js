@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import connectMongoDB from "./db/connectMongoDB.js";
 
 import userRouter from "./router/userRouter.js";
+import salaryRouter from "./router/salaryrouter.js";
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/auth", userRouter);
+app.use("/salary", salaryRouter);
 
 dotenv.config();
 
