@@ -14,6 +14,10 @@ import DashboardSalary from "./pages/shanika/salary-management/DashboardSalary";
 import CalculateSalary from "./pages/shanika/salary-management/CalculateSalary";
 import SalaryPayments from "./pages/shanika/salary-management/SalaryPayments";
 import EditSalary from "./pages/shanika/salary-management/EditSalary";
+import Inventory from "./pages/dilmi/inventory-manager/Inventory";
+import AddProduct from "./pages/dilmi/inventory-manager/AddProduct";
+import ProductsList from "./pages/dilmi/inventory-manager/ProductsList";
+import EditProduct from "./pages/dilmi/inventory-manager/EditProduct";
 
 function App() {
   return (
@@ -24,6 +28,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
+
+        {/* Shanika */}
         <Route path="/dashboard/staff" element={<DashboardStaff />} />
         <Route path="/dashboard/staff/add" element={<DashboardAddStaff />} />
         <Route
@@ -31,15 +37,18 @@ function App() {
           element={<DashboardEditStaff />}
         />
         <Route path="/dashboard/staff/list" element={<DashboardStaffList />} />
-        {/* <Route path="/dashboard/products" element={<DashboardProducts />} /> */}
-        
+
+        {/* Salary management */}
         <Route path="/dashboard/salary" element={<DashboardSalary />} />
         <Route path="/dashboard/salary/add" element={<CalculateSalary />} />
         <Route path="/dashboard/salary/list" element={<SalaryPayments />} />
-        <Route
-          path="/dashboard/salary/edit/:id"
-          element={<EditSalary />}
-        />
+        <Route path="/dashboard/salary/edit/:id" element={<EditSalary />} />
+
+        {/* Product management */}
+        <Route path="/dashboard/products" element={<Inventory />} />
+        <Route path="/dashboard/products/add" element={<AddProduct />} />
+        <Route path="/dashboard/products/list" element={<ProductsList />} />
+        <Route path="/dashboard/products/edit/:id" element={<EditProduct />} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>

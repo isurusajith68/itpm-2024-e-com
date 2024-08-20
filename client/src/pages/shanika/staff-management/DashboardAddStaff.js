@@ -73,7 +73,7 @@ const DashboardStaff = () => {
               type="text"
               className="text-sm "
               label="Username"
-              placeholder="Enter your username"
+              placeholder="Enter  username"
               {...register("username")}
               isInvalid={errors.username}
               errorMessage={errors.username?.message}
@@ -84,7 +84,7 @@ const DashboardStaff = () => {
               type="text"
               label="Email"
               className="text-sm "
-              placeholder="Enter your email"
+              placeholder="Enter  email"
               {...register("email")}
               isInvalid={errors.email}
               errorMessage={errors.email?.message}
