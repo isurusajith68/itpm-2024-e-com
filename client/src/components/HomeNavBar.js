@@ -24,7 +24,7 @@ import { FaUserFriends, FaWallet } from "react-icons/fa";
           <AiOutlineMenu size={30} />
         </div>
         <h1 className="text-2xl sm:text-3xl lg:text-4xl px-2">
-          Best <span className="font-bold text-red-700">Eats</span>
+          E <span className="font-bold text-red-700">Computers</span>
         </h1>
         
       </div>
