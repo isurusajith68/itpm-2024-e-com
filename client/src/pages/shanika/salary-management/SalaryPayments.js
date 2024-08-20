@@ -1,4 +1,6 @@
 const SalaryPayments = () => {
+
+    
   return (
     <div>SalaryPayments</div>
   )
