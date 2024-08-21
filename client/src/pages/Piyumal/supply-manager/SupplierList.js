@@ -19,6 +19,8 @@ import { useNavigate } from "react-router-dom";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import DeleteSupplierModel from "./DeleteSupplierModel";
+import { MdAddBusiness } from "react-icons/md";
+import RequestToSupplierModel from "./RequestToSupplierModel";
 
 const SupplierList = () => {
   const [page, setPage] = useState(1);
@@ -190,6 +192,16 @@ const SupplierList = () => {
                           }}
                         />
                       </span>
+                    </Tooltip>{" "}
+                    <Tooltip color="secondary" content="request to supplier">
+                      <span className="text-lg text-blue-700 cursor-pointer active:opacity-50">
+                        <MdAddBusiness
+                          onClick={() => {
+                            setSupplierId(item._id);
+                            onOpenChange();
+                          }}
+                        />
+                      </span>
                     </Tooltip>
                   </TableCell>
                 </TableRow>
@@ -205,6 +217,15 @@ const SupplierList = () => {
         setSupplierId={setSupplierId}
         setRefetch={setRefetch}
         setSupplier={setSupplier}
+      />
+      <RequestToSupplierModel
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        supplierId={supplierId}
+        setSupplierId={setSupplierId}
+        setRefetch={setRefetch}
+        setSupplier={setSupplier}
+        supplier={supplier}
       />
     </Layout>
   );
