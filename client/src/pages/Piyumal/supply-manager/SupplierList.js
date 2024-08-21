@@ -29,6 +29,7 @@ const SupplierList = () => {
   const [loading, setLoading] = useState(true);
   const [supplierId, setSupplierId] = useState("");
   const [refetch, setRefetch] = useState(false);
+  const [supplierValue, setSupplierValue] = useState(null);
 
   const { isOpen, onOpenChange } = useDisclosure();
 
@@ -162,6 +163,7 @@ const SupplierList = () => {
               <TableColumn>Email</TableColumn>
               <TableColumn>Company Name</TableColumn>
               <TableColumn>Phone Number</TableColumn>
+              <TableColumn>Supply Product</TableColumn>
               <TableColumn>Actions</TableColumn>
             </TableHeader>
             <TableBody>
@@ -172,7 +174,7 @@ const SupplierList = () => {
                   <TableCell>{item.email}</TableCell>
                   <TableCell>{item.companyName}</TableCell>
                   <TableCell>{item.phoneNumber}</TableCell>
-
+                  <TableCell>{item.supplyProduct}</TableCell>
                   <TableCell className="flex gap-6">
                     <Tooltip content="Edit supplier">
                       <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
@@ -197,7 +199,7 @@ const SupplierList = () => {
                       <span className="text-lg text-blue-700 cursor-pointer active:opacity-50">
                         <MdAddBusiness
                           onClick={() => {
-                            setSupplierId(item._id);
+                            setSupplierValue(item);
                             onOpenChange();
                           }}
                         />
@@ -225,7 +227,7 @@ const SupplierList = () => {
         setSupplierId={setSupplierId}
         setRefetch={setRefetch}
         setSupplier={setSupplier}
-        supplier={supplier}
+        supplier={supplierValue}
       />
     </Layout>
   );

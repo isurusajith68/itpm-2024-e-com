@@ -23,13 +23,13 @@ const MessageToSupplier = ({ isOpen, onOpenChange, clickedProductName }) => {
             </ModalHeader>
             <ModalBody>
               <p className="text-[12px] ml-2">
-                Message to supplier for product
+                Message to supply manager product
                 <span className="ml-1 font-semibold mr-1">
                   {clickedProductName}
                 </span>
               </p>
               <Textarea
-                placeholder="Message to supplier"
+                placeholder="Message to supply manager"
                 onChange={(e) => setMessage(e.target.value)}
               />
             </ModalBody>
