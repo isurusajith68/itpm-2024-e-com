@@ -10,6 +10,7 @@ import { BsFillCartFill, BsFillSaveFill } from "react-icons/bs";
 import { TbTruckDelivery } from "react-icons/tb";
 import { MdFavorite, MdHelp } from "react-icons/md";
 import { FaUserFriends, FaWallet } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const NavBar = () => {
   const [nav, setNav] = useState(false);
@@ -21,9 +22,11 @@ const NavBar = () => {
         <div onClick={() => setNav(!nav)} className="cursor-pointer">
           <AiOutlineMenu size={30} />
         </div>
-        <h1 className="text-2xl sm:text-3xl lg:text-4xl px-2">
-          E <span className="font-bold text-red-700">Computers</span>
-        </h1>
+        <Link to='/'>
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl px-2">
+            E <span className="font-bold text-red-700">Computers</span>
+          </h1>
+        </Link>
       </div>
       {/* search bar */}
       <div className="bg-gray-200 rounded-full items-center flex px-2 w-[200px] sm:w-[400px] lg:w-[500px]">

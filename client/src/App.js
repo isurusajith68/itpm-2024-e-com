@@ -5,28 +5,6 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 import Register from "./pages/Register";
-import DashboardStaff from "./pages/shanika/staff-management/DashboardStaff";
-import DashboardAddStaff from "./pages/shanika/staff-management/DashboardAddStaff";
-import DashboardEditStaff from "./pages/shanika/staff-management/DashboardEditStaff";
-import DashboardStaffList from "./pages/shanika/staff-management/DashboardStaffList";
-// import DashboardProducts from "./pages/shanika/product-management/DashboardProducts";
-import DashboardSalary from "./pages/shanika/salary-management/DashboardSalary";
-import CalculateSalary from "./pages/shanika/salary-management/CalculateSalary";
-import SalaryPayments from "./pages/shanika/salary-management/SalaryPayments";
-import EditSalary from "./pages/shanika/salary-management/EditSalary";
-import Inventory from "./pages/dilmi/inventory-manager/Inventory";
-import AddProduct from "./pages/dilmi/inventory-manager/AddProduct";
-import ProductsList from "./pages/dilmi/inventory-manager/ProductsList";
-import EditProduct from "./pages/dilmi/inventory-manager/EditProduct";
-import Supply from "./pages/Piyumal/supply-manager/Supply";
-import AddSupplier from "./pages/Piyumal/supply-manager/AddSupplier";
-import SupplierList from "./pages/Piyumal/supply-manager/SupplierList";
-import EditSupplier from "./pages/Piyumal/supply-manager/EditSupplier";
-import PromotionManager from "./pages/maneth/promotion-manager/PromotionManager";
-import PromotionItems from "./pages/maneth/promotion-manager/PromotionItems";
-import AddCoupon from "./pages/maneth/promotion-manager/AddCoupon";
-import CouponList from "./pages/maneth/promotion-manager/CouponList";
-import EditCoupon from "./pages/maneth/promotion-manager/EditCoupon";
 
 function App() {
   return (
@@ -37,6 +15,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/product" element={<ProductPage />} />
 
         {/* Shanika */}
         <Route path="/dashboard/staff" element={<DashboardStaff />} />
