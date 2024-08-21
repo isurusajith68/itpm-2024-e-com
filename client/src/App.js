@@ -81,7 +81,7 @@ function App() {
           element={<EditCoupon />}
         />
 
-        <Route path="/product" element={<ProductPage />} />
+        <Route path="/product/:id" element={<ProductPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

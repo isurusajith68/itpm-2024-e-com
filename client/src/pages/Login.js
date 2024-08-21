@@ -37,24 +37,26 @@ const Login = () => {
         toast.success("Login successfully");
         localStorage.setItem("authUser", JSON.stringify(res.data.user));
         console.log(res.data.user.role);
-        navigate("/dashboard/staff");
-        // if (res.data.user.role === "admin") {
-        //   navigate("/dashboard");
-        // } else if (res.data.user.role === "patient") {
-        //   navigate("/dashboard/patient");
-        // } else if (res.data.user.role === "doctor") {
-        //   navigate("/dashboard/doctor");
-        // } else if (res.data.user.role === "registar") {
-        //   navigate("/dashboard/add-patient");
-        // } else if (res.data.user.role === "attendant") {
-        //   navigate("/dashboard/attendant");
-        // } else if (res.data.user.role === "laboratorist") {
-        //   navigate("/dashboard/laboratory");
-        // } else if (res.data.user.role === "rediologist") {
-        //   navigate("/dashboard/x-ray");
-        // } else if (res.data.user.role === "pharmacist") {
-        //   navigate("/dashboard/pharmacy");
-        // }
+
+        if (res.data.user.role === "admin") {
+          navigate("/dashboard/staff");
+        } else if (res.data.user.role === "inventory") {
+          navigate("/dashboard/staff");
+        } else if (res.data.user.role === "sales") {
+          navigate("/dashboard/staff");
+        } else if (res.data.user.role === "suppliers") {
+          navigate("/dashboard/staff");
+        } else if (res.data.user.role === "promotion") {
+          navigate("/dashboard/staff");
+        } else if (res.data.user.role === "feedback") {
+          navigate("/dashboard/staff");
+        } else if (res.data.user.role === "service") {
+          navigate("/dashboard/staff");
+        } else if (res.data.user.role === "delivery") {
+          navigate("/dashboard/staff");
+        } else {
+          navigate("/");
+        }
       }
     } catch (error) {
       if (error?.response) {

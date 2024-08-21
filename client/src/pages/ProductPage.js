@@ -1,16 +1,49 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NavBar from "../components/HomeNavBar";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const ProductPage = () => {
-  const image =
-    "https://i.dell.com/is/image/DellContent/content/dam/ss2/page-specific/category-pages/alienware-desktop-aurora-r16-notebook-m18-800x620-image-v2.png?fmt=png-alpha&wid=800&hei=620";
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const { id } = useParams();
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const res = await axios.get(`http://localhost:5000/products/${id}`);
+        const data = res.data.product;
+        setProduct(data);
+
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    };
+
+    fetchProduct();
+  }, [id]);
+
+  if (loading) {
+    return (
+    
+        <div className="flex justify-center items-center h-screen">
+          <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
+        </div>
+      
+    );
+  }
   return (
     <>
       <NavBar />
-      <div className=" max-w-[1640px] p-4 mx-auto mt-[150px] mb-[150px]">
+      <div className=" max-w-[1400px] p-4 mx-auto mt-[50px] mb-[150px]">
         <div className="  flex justify-between">
           <div className="  w-full">
-            <img className=" w-full object-cover rounded-xl" src={image} />
+            <img
+              className=" w-full object-cover rounded-xl"
+              src={product.image}
+            />
           </div>
           <div className="h-auto border-l-2 border-gray-300"></div>
           <div className="  w-full mt-[100px]">

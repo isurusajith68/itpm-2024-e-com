@@ -56,15 +56,15 @@ const DashboardNavbar = () => {
             </button> */}
           </div>
           <div className="flex items-center justify-center gap-10">
-            <div className="flex gap-2 items-center text-sm font-semibold text-green-500">
+            <div className="flex gap-2 items-center text-sm font-semibold text-green-500 hover:cursor-pointer">
               <FaMessage size={16} className="text-green-500" />
               Message
             </div>
-            <div className="flex gap-2 items-center text-sm font-semibold text-red-500">
+            <div className="flex gap-2 items-center text-sm font-semibold text-red-500 hover:cursor-pointer">
               {notifications.length > 0 ? (
                 <Popover>
                   <PopoverTrigger>
-                    <div className="flex gap-2 items-center">
+                    <div className="flex gap-2 items-center hover:cursor-pointer">
                       <IoIosNotifications size={16} className="text-red-500" />
                       Notification ({notifications.length})
                     </div>
