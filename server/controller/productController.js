@@ -59,7 +59,11 @@ export const updateProduct = async (req, res) => {
     existingProduct.description =
       product.description || existingProduct.description;
     existingProduct.image = product.image || existingProduct.image;
-    existingProduct.promotion = product.promotion || existingProduct.promotion;
+    if (existingProduct.promotion) {
+      existingProduct.promotion = false;
+    } else {
+      existingProduct.promotion = true;
+    }
     existingProduct.discount = product.discount || existingProduct.discount;
     existingProduct.ratting = product.ratting || existingProduct.ratting;
 

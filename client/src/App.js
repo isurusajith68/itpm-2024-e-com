@@ -18,6 +18,15 @@ import Inventory from "./pages/dilmi/inventory-manager/Inventory";
 import AddProduct from "./pages/dilmi/inventory-manager/AddProduct";
 import ProductsList from "./pages/dilmi/inventory-manager/ProductsList";
 import EditProduct from "./pages/dilmi/inventory-manager/EditProduct";
+import Supply from "./pages/Piyumal/supply-manager/Supply";
+import AddSupplier from "./pages/Piyumal/supply-manager/AddSupplier";
+import SupplierList from "./pages/Piyumal/supply-manager/SupplierList";
+import EditSupplier from "./pages/Piyumal/supply-manager/EditSupplier";
+import PromotionManager from "./pages/maneth/promotion-manager/PromotionManager";
+import PromotionItems from "./pages/maneth/promotion-manager/PromotionItems";
+import AddCoupon from "./pages/maneth/promotion-manager/AddCoupon";
+import CouponList from "./pages/maneth/promotion-manager/CouponList";
+import EditCoupon from "./pages/maneth/promotion-manager/EditCoupon";
 
 function App() {
   return (
@@ -49,6 +58,25 @@ function App() {
         <Route path="/dashboard/products/add" element={<AddProduct />} />
         <Route path="/dashboard/products/list" element={<ProductsList />} />
         <Route path="/dashboard/products/edit/:id" element={<EditProduct />} />
+
+        {/*Supply manager*/}
+        <Route path="/dashboard/supply" element={<Supply />} />
+        <Route path="/dashboard/supply/add" element={<AddSupplier />} />
+        <Route path="/dashboard/supply/list" element={<SupplierList />} />
+        <Route path="/dashboard/supply/edit/:id" element={<EditSupplier />} />
+
+        {/*Promotion manager*/}
+        <Route path="/dashboard/promotion" element={<PromotionManager />} />
+        <Route path="/dashboard/promotion/items" element={<PromotionItems />} />
+        <Route path="/dashboard/promotion/coupon/add" element={<AddCoupon />} />
+        <Route
+          path="/dashboard/promotion/coupon/list"
+          element={<CouponList />}
+        />
+        <Route
+          path="/dashboard/promotion/coupon/edit/:id"
+          element={<EditCoupon />}
+        />
 
         <Route path="*" element={<NotFound />} />
       </Routes>

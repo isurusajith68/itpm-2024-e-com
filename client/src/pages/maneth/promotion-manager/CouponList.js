@@ -15,47 +15,44 @@ import {
 import { FaUserEdit } from "react-icons/fa";
 import { useEffect, useMemo, useState } from "react";
 import { IoSearch } from "react-icons/io5";
-import { BiMessageRoundedDetail } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
-import DeleteProductModel from "./DeleteProductModel";
-import MessageToSupplierModal from "./MessageToSupplierModal";
+import DeleteCouponModel from "./DeleteCouponModel";
 
-const ProductsList = () => {
+const CouponList = () => {
   const [page, setPage] = useState(1);
-  const [product, setProduct] = useState([]);
+  const [coupon, setCoupon] = useState([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
-  const [productId, setProductId] = useState("");
+  const [couponId, setCouponId] = useState("");
   const [refetch, setRefetch] = useState(false);
-  const [clickedProductName, setClickedProductName] = useState("");
+
   const { isOpen, onOpenChange } = useDisclosure();
-  const { isOpen: isOpenMessage, onOpenChange: onOpenChangeMessage } =
-    useDisclosure();
 
   const navigate = useNavigate();
-  const rowsPerPage = 4;
-  const pages = Math.ceil(product.length / rowsPerPage);
+  const rowsPerPage = 6;
+  const pages = Math.ceil(coupon.length / rowsPerPage);
 
-  const filteredStaff = useMemo(() => {
-    return product.filter((item) =>
-      item.productName.toLowerCase().includes(search.toLowerCase())
+  const filteredCoupon = useMemo(() => {
+    return coupon.filter((item) =>
+      item.couponCode.toLowerCase().includes(search.toLowerCase())
     );
-  }, [search, product]);
+  }, [search, coupon]);
 
   const items = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
     const end = start + rowsPerPage;
-    return filteredStaff?.slice(start, end);
-  }, [page, filteredStaff]);
+    return filteredCoupon?.slice(start, end);
+  }, [page, filteredCoupon]);
 
   useEffect(() => {
-    const fetchStaff = async () => {
+    const fetchCoupon = async () => {
       try {
-        const res = await fetch("http://localhost:5000/products");
+        const res = await fetch("http://localhost:5000/coupon");
         const data = await res.json();
-        setProduct(data.products);
+
+        setCoupon(data.coupons);
         setLoading(false);
         setRefetch(false);
       } catch (error) {
@@ -63,25 +60,24 @@ const ProductsList = () => {
       }
     };
 
-    fetchStaff();
+    fetchCoupon();
   }, [refetch]);
 
   const generatePDF = () => {
     const doc = new jsPDF();
-    doc.text("Product List", 14, 10);
+    doc.text("Coupon List Report", 14, 10);
 
-    const tableColumn = ["Id", "Product Name", "Category", "Quantity", "Price"];
-
+    const tableColumn = ["ID", "Coupon Code", "discount", "expiry Date"];
     const tableRows = [];
 
-    product.forEach((item, index) => {
+    coupon.forEach((item, index) => {
       const rowData = [
         index + 1,
-        item.productName,
-        item.category,
-        item.quantity,
-        item.price,
+        item.couponCode,
+        item.discount,
+        item.expiryDate,
       ];
+
       tableRows.push(rowData);
     });
 
@@ -91,7 +87,7 @@ const ProductsList = () => {
       startY: 20,
     });
 
-    doc.save("product-list-report.pdf");
+    doc.save("coupon-list-report.pdf");
   };
 
   if (loading) {
@@ -109,7 +105,7 @@ const ProductsList = () => {
       <div className="w-full items-center justify-center flex flex-col">
         <div className="flex justify-between p-2">
           <h1 className="text-center mt-2 font-semibold text-lg">
-            Product List
+            Coupon List
           </h1>
         </div>
         <div className="flex w-[1000px] justify-between">
@@ -117,7 +113,7 @@ const ProductsList = () => {
             <Input
               isClearable
               radius="full"
-              placeholder="Search product..."
+              placeholder="Search coupon..."
               startContent={<IoSearch />}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -148,55 +144,43 @@ const ProductsList = () => {
           >
             <TableHeader>
               <TableColumn>Id</TableColumn>
-              <TableColumn>Product Name</TableColumn>
-              <TableColumn>Product Image</TableColumn>
-              <TableColumn>Category</TableColumn>
-              <TableColumn>Quantity</TableColumn>
-              <TableColumn>Price</TableColumn>
+              <TableColumn>Coupon Code</TableColumn>
+              <TableColumn>Discount</TableColumn>
+              <TableColumn>Expiry Date</TableColumn>
               <TableColumn>Action</TableColumn>
             </TableHeader>
             <TableBody>
               {items.map((item, index) => {
+                const date = new Date(item.expiryDate);
+
+                const formattedDate = isNaN(date.getTime())
+                  ? "Invalid date"
+                  : date.toLocaleDateString("en-US");
+
                 return (
                   <TableRow key={item._id}>
                     <TableCell>{index + 1}</TableCell>
-                    <TableCell>{item.productName}</TableCell>
-                    <TableCell>
-                      <img
-                        src={item.image}
-                        alt={item.productName}
-                        className="w-16 h-16 object-cover"
-                      />
-                    </TableCell>
-                    <TableCell>{item.category}</TableCell>
-                    <TableCell>{item.quantity}</TableCell>
-                    <TableCell>{item.price}</TableCell>
-                    <TableCell className="flex gap-6  items-center h-16">
-                      <Tooltip content="Edit product" className="">
+                    <TableCell>{item.couponCode}</TableCell>
+                    <TableCell>{item.discount}</TableCell>
+                    <TableCell>{formattedDate}</TableCell>
+                    <TableCell className="flex gap-6">
+                      <Tooltip content="Edit coupon">
                         <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
                           <FaUserEdit
                             onClick={() =>
-                              navigate(`/dashboard/products/edit/${item._id}`)
+                              navigate(
+                                `/dashboard/promotion/coupon/edit/${item._id}`
+                              )
                             }
                           />
                         </span>
                       </Tooltip>
-                      <Tooltip color="danger" content="Delete product">
+                      <Tooltip color="danger" content="Delete coupon">
                         <span className="text-lg text-danger cursor-pointer active:opacity-50">
                           <MdDeleteSweep
                             onClick={() => {
-                              setProductId(item._id);
+                              setCouponId(item._id);
                               onOpenChange();
-                            }}
-                          />
-                        </span>
-                      </Tooltip>
-                      <Tooltip color="success" content="Notify Supplier">
-                        <span className="text-lg  cursor-pointer active:opacity-50 text-green-500">
-                          <BiMessageRoundedDetail
-                            onClick={() => {
-                              setClickedProductName(item.productName);
-                              onOpenChangeMessage();
                             }}
                           />
                         </span>
@@ -209,21 +193,15 @@ const ProductsList = () => {
           </Table>
         </div>
       </div>
-      <DeleteProductModel
+      <DeleteCouponModel
         isOpen={isOpen}
         onOpenChange={onOpenChange}
-        productId={productId}
-        setProductId={setProductId}
+        couponId={couponId}
+        setCouponId={setCouponId}
         setRefetch={setRefetch}
-        setProduct={setProduct}
-      />
-      <MessageToSupplierModal
-        isOpen={isOpenMessage}
-        onOpenChange={onOpenChangeMessage}
-        setRefetch={setRefetch}
-        clickedProductName={clickedProductName}
+        setCoupon={setCoupon}
       />
     </Layout>
   );
 };
-export default ProductsList;
+export default CouponList;

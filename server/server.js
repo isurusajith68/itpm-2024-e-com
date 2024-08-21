@@ -8,6 +8,9 @@ import connectMongoDB from "./db/connectMongoDB.js";
 import userRouter from "./router/userRouter.js";
 import salaryRouter from "./router/salaryrouter.js";
 import productRouter from "./router/productRouter.js";
+import supplyRouter from "./router/supplyRouter.js";
+import promotionRouter from "./router/promotionRouter.js";
+import messageRouter from "./controller/sentMessage.js";
 
 const app = express();
 
@@ -18,6 +21,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/auth", userRouter);
 app.use("/salary", salaryRouter);
 app.use("/products", productRouter);
+app.use("/supplies", supplyRouter);
+app.use("/coupon", promotionRouter);
+app.use("/message", messageRouter);
 
 dotenv.config();
 

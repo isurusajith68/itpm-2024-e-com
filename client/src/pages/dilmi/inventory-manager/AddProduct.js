@@ -170,7 +170,7 @@ const AddProduct = () => {
                   isInvalid={errors.category}
                 >
                   {productCategory.map((item) => (
-                    <SelectItem key={item.key} value={item.key}>
+                    <SelectItem key={item.value} value={item.value}>
                       {item.value}
                     </SelectItem>
                   ))}
