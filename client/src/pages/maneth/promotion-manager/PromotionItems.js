@@ -20,6 +20,7 @@ import { RiDiscountPercentFill } from "react-icons/ri";
 import { RiDiscountPercentLine } from "react-icons/ri";
 import "jspdf-autotable";
 import { IoIosAddCircle } from "react-icons/io";
+import PromotionModal from "./PromotionModal";
 // import DeleteProductModel from "./DeleteProductModel";
 
 const PromotionItems = () => {
@@ -27,12 +28,11 @@ const PromotionItems = () => {
   const [product, setProduct] = useState([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
-  const [productId, setProductId] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const [refetch, setRefetch] = useState(false);
 
   const { isOpen, onOpenChange } = useDisclosure();
 
-  const navigate = useNavigate();
   const rowsPerPage = 4;
   const pages = Math.ceil(product.length / rowsPerPage);
 
@@ -74,20 +74,7 @@ const PromotionItems = () => {
     );
   }
 
-  const updateProduct = async (id, promotion) => {
-    try {
-      await fetch(`http://localhost:5000/products/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ promotion: promotion }),
-      });
-      setTimeout(() => setRefetch(true), 300);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  
 
   return (
     <Layout>
@@ -130,7 +117,7 @@ const PromotionItems = () => {
               <TableColumn>Product Name</TableColumn>
               <TableColumn>Product Image</TableColumn>
               <TableColumn>Category</TableColumn>
-
+              <TableColumn>Discount</TableColumn>
               <TableColumn>Price</TableColumn>
               <TableColumn className="">promotion</TableColumn>
               {/* <TableColumn>coupon</TableColumn> */}
@@ -149,25 +136,28 @@ const PromotionItems = () => {
                       />
                     </TableCell>
                     <TableCell>{item.category}</TableCell>
+                    <TableCell>{item.discount}%</TableCell>
 
                     <TableCell>{item.price}</TableCell>
                     <TableCell className="flex items-center h-20 ml-5">
                       {item.promotion ? (
-                        <Tooltip color="danger" content="remove promotion ">
+                        <Tooltip color="danger" content=" promotion ">
                           <span className="text-lg text-danger cursor-pointer active:opacity-50">
                             <RiDiscountPercentFill
                               onClick={() => {
-                                updateProduct(item._id, false);
+                                onOpenChange();
+                                setSelectedProduct(item);
                               }}
                             />
                           </span>
                         </Tooltip>
                       ) : (
-                        <Tooltip color="danger" content="add promotion ">
+                        <Tooltip color="danger" content=" promotion ">
                           <span className="text-lg text-danger cursor-pointer active:opacity-50">
                             <RiDiscountPercentLine
                               onClick={() => {
-                                updateProduct(item._id, true);
+                                onOpenChange();
+                                setSelectedProduct(item);
                               }}
                             />
                           </span>
@@ -188,14 +178,13 @@ const PromotionItems = () => {
           </Table>
         </div>
       </div>
-      {/* <DeleteProductModel */}
-      {/* isOpen={isOpen}
-      onOpenChange={onOpenChange}
-      productId={productId}
-      setProductId={setProductId}
-      setRefetch={setRefetch}
-      setProduct={setProduct}
-      />  */}
+      <PromotionModal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        setRefetch={setRefetch}
+        selectedProduct={selectedProduct}
+        setSelectedProduct={setSelectedProduct}
+      />
     </Layout>
   );
 };
