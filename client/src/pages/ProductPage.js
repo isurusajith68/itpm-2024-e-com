@@ -8,11 +8,30 @@ const ProductPage = () => {
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
 
-  const handleAddClick = () => {
-    let cart = [];
-    cart.push(product);
-    localStorage.setItem('cart', cart);
-  }
+  const handleAddClick = (product) => {
+    const sanitizedProduct = {
+      id: product._id,
+      name: product.productName,
+      image: product.image,
+      price: product.price,
+      quantity: product.quantity,
+      selectedQuantity: 1,
+    };
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    const existingProductIndex = cart.findIndex(
+      (item) => item.id === product._id
+    );
+
+    if (existingProductIndex >= 0) {
+      cart[existingProductIndex].selectedQuantity += 1;
+    } else {
+      cart.push(sanitizedProduct);
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+  };
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -176,7 +195,14 @@ const ProductPage = () => {
                 </div>
               </div>
               <p className=" text-2xl font-bold">LKR : 350,000/=</p>
-              <button onClick={handleAddClick} className="mx-2 font-semibold bg-green-600 bottom-4  text-white mt-10 hover:scale-105 duration-100 border border-white rounded-xl px-5 py-3 hover:text-black">
+              <button
+                onClick={
+                  product.quantity > 0
+                    ? () => handleAddClick(product)
+                    : () => alert("Out of Stock")
+                }
+                className="mx-2 font-semibold bg-green-600 bottom-4  text-white mt-10 hover:scale-105 duration-100 border border-white rounded-xl px-5 py-3 hover:text-black"
+              >
                 Add to Cart
               </button>
             </div>
