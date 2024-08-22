@@ -29,6 +29,7 @@ import CouponList from "./pages/maneth/promotion-manager/CouponList";
 import EditCoupon from "./pages/maneth/promotion-manager/EditCoupon";
 import ProductPage from "./pages/ProductPage";
 import SupplyRequests from "./pages/Piyumal/supply-manager/SupplyRequests";
+import Cart from "./pages/Cart";
 
 function App() {
   return (
@@ -66,7 +67,10 @@ function App() {
         <Route path="/dashboard/supply/add" element={<AddSupplier />} />
         <Route path="/dashboard/supply/list" element={<SupplierList />} />
         <Route path="/dashboard/supply/edit/:id" element={<EditSupplier />} />
-        <Route path="/dashboard/supply/request-list" element={<SupplyRequests />} />
+        <Route
+          path="/dashboard/supply/request-list"
+          element={<SupplyRequests />}
+        />
 
         {/*Promotion manager*/}
         <Route path="/dashboard/promotion" element={<PromotionManager />} />
@@ -82,6 +86,7 @@ function App() {
         />
 
         <Route path="/product/:id" element={<ProductPage />} />
+        <Route path="/cart" element={<Cart />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
