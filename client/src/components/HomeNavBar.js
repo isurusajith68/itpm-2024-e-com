@@ -59,24 +59,24 @@ const NavBar = () => {
       {/* cart button */}
 
       <div className=" flex gap-5">
-        <button className="bg-black text-white rounded-full boder border-black  px-5  md:flex hidden py-2 hover:scale-105 duration-300">
-          <BsFillCartFill size={20} className="mr-2" />{" "}
-          <p className="text-yellow-300 font-bold capitalize">cart</p>
-        </button>
+        <Link to="/cart">
+          <button className="bg-black text-white rounded-full boder border-black  px-5  md:flex hidden py-2 hover:scale-105 duration-300">
+            <BsFillCartFill size={20} className="mr-2" />{" "}
+            <p className="text-yellow-300 font-bold capitalize">cart</p>
+          </button>
+        </Link>
 
         <div className="flex items-center gap-2 p-1 px-4 text-blue-500 hover:cursor-pointer border rounded-lg hover:scale-105 duration-300">
           <FaUserCircle size={20} />
           <div>
             <h1 className="font-semibold">{user ? user?.username : "user"}</h1>
           </div>
-  
         </div>
         <button
           onClick={handleLogout}
           className="p-2  flex gap-2 text-blue-600  hover:rounded-lg border hover:scale-105 duration-300 border-white shadow-sm bg-red-700 rounded-lg cursor-pointer items-center"
         >
           <RiLogoutBoxLine size={20} className="text-white" />
-          
         </button>
       </div>
 
