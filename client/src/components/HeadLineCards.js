@@ -1,40 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-function HeadLineCards() {
-  const [product, setProduct] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  const navigate = useNavigate();
-  
-
-  //const image = "https://i.dell.com/is/image/DellContent/content/dam/ss2/page-specific/category-pages/alienware-desktop-aurora-r16-notebook-m18-800x620-image-v2.png?fmt=png-alpha&wid=800&hei=620"
-
-  useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const res = await fetch("http://localhost:5000/products");
-        const data = await res.json();
-        setProduct(data.products);
-        setLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchProduct();
-  }, []);
-  console.log(product);
-
+function HeadLineCards({ setLoading, product }) {
   return (
     <div className="max-w-[1640px] mx-auto p-4 py-12 grid md:grid-cols-5 gap-6">
       {/* card */}
       {product.map((p, index) => {
         return (
-
-          <Link to={`/product/${p._id}`}
+          <Link
+            to={`/product/${p._id}`}
             className="rounded-xl relative  hover:scale-105 duration-300 "
-            
           >
             {/* overlay */}
             <div className="absolute w-full h-full bg-black/30 rounded-xl text-white">

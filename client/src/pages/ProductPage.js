@@ -14,7 +14,6 @@ const ProductPage = () => {
         const res = await axios.get(`http://localhost:5000/products/${id}`);
         const data = res.data.product;
         setProduct(data);
-
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -27,19 +26,23 @@ const ProductPage = () => {
 
   if (loading) {
     return (
-    
-        <div className="flex justify-center items-center h-screen">
-          <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
-        </div>
-      
+      <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
+      </div>
     );
   }
+  console.log(product);
   return (
     <>
       <NavBar />
       <div className=" max-w-[1400px] p-4 mx-auto mt-[50px] mb-[150px]">
         <div className="  flex justify-between">
           <div className="  w-full">
+            {product.discount !== 0 ? (
+              <div className="bg-red-600 rounded-full  w-[100px] h-[100px] flex items-center justify-center text-4xl font-bold">
+                {product.discount}%
+              </div>
+            ) : null}
             <img
               className=" w-full object-cover rounded-xl"
               src={product.image}
