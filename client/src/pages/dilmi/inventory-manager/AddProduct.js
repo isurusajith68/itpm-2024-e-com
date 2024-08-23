@@ -22,7 +22,10 @@ const formSchema = yup.object().shape({
     .typeError("Price must be a number")
     .required("Price is required")
     .min(0, "Price cannot be a negative number"),
-  description: yup.string().required("description is required"),
+  processor: yup.string().required("Processor is required"),
+  os: yup.string().required("OS is required"),
+  graphics: yup.string().required("Graphics is required"),
+  storage: yup.string().required("Storage is required"),
 });
 
 const AddProduct = () => {
@@ -47,7 +50,10 @@ const AddProduct = () => {
       category: data.category,
       quantity: data.quantity,
       price: data.price,
-      description: data.description,
+      processor: data.processor,
+      os: data.os,
+      graphics: data.graphics,
+      storage: data.storage,
       image: imageBase64,
     };
 
@@ -199,14 +205,55 @@ const AddProduct = () => {
                     errorMessage={errors.price?.message}
                   />
                 </div>
-                <Textarea
-                  label="Description"
-                  placeholder="Enter your description"
-                  className="text-sm "
-                  {...register("description")}
-                  isInvalid={errors.description}
-                  errorMessage={errors.description?.message}
-                />
+                <div className="flex  gap-2">
+                  <Input
+                    size="md"
+                    variant="filled"
+                    type="text"
+                    className="text-sm "
+                    label="Processor"
+                    placeholder="Enter processor"
+                    {...register("processor")}
+                    isInvalid={errors.processor}
+                    errorMessage={errors.processor?.message}
+                  />
+                  <Input
+                    size="md"
+                    variant="filled"
+                    type="text"
+                    className="text-sm "
+                    label="OS"
+                    placeholder="Enter product os"
+                    {...register("os")}
+                    isInvalid={errors.os}
+                    errorMessage={errors.os?.message}
+                  />
+                </div>
+
+                <div className="flex  gap-2">
+                  <Input
+                    size="md"
+                    variant="filled"
+                    type="text"
+                    className="text-sm "
+                    label="Graphics"
+                    placeholder="Enter graphics"
+                    {...register("graphics")}
+                    isInvalid={errors.graphics}
+                    errorMessage={errors.graphics?.message}
+                  />
+                  <Input
+                    size="md"
+                    variant="filled"
+                    type="text"
+                    className="text-sm "
+                    label="Storage"
+                    placeholder="Enter storage"
+                    {...register("storage")}
+                    isInvalid={errors.storage}
+                    errorMessage={errors.storage?.message}
+                  />
+                </div>
               </div>
             </div>
 
