@@ -61,26 +61,19 @@ const ProductPage = () => {
   }, [id]);
 
   useEffect(() => {
-    if (user && user._id) {
-      // Ensure user is not null and _id is available
-      const fetchSales = async () => {
-        try {
-          const res = await fetch(
-            `http://localhost:5000/feedback/get-feedbacks/${user._id}`
-          );
-          const data = await res.json();
-          setFeedbacks(data);
-          setLoading(false);
-        } catch (error) {
-          console.log(error);
-        }
-      };
+    const fetchFeedback = async () => {
+      try {
+        const res = await fetch(`http://localhost:5000/feedback`);
+        const data = await res.json();
+        setFeedbacks(data);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-      fetchSales();
-    }
-  }, [user]);
-
-  console.log("feed", feedbacks);
+    fetchFeedback();
+  }, []);
 
   if (loading) {
     return (
@@ -273,16 +266,28 @@ const ProductPage = () => {
         </div>
         <hr className=" border-2-2 mt-3 mb-3" />
         {feedbacks?.map((feedback, index) => {
+          const productFeedbacks = feedback.order.orderItems.filter(
+            (item) => item._id === id
+          );
+
+          if (productFeedbacks.length === 0) return null;
+
           return (
-            <div className="grid grid-cols-3 gap-4">
-              <div className=" p-4 flex gap-2">
-                <div className=" w-[100px] h-[100px] ">
-                  <img src={ProfilePic} />
+            <div key={index} className="grid grid-cols-3 gap-4">
+              {productFeedbacks.map((productFeedback, subIndex) => (
+                <div key={subIndex} className="p-4 flex gap-2">
+                  <div className="w-[100px] h-[100px]">
+                    <img
+                      src={ProfilePic}
+                      alt="Profile"
+                      className="w-full h-full object-cover rounded-full"
+                    />
+                  </div>
+                  <div className="w-full bg-slate-400 rounded-lg p-4">
+                    {feedback.feedback}
+                  </div>
                 </div>
-                <div className="w-full bg-slate-400 rounded-lg p-4">
-                  {feedback.feedback}
-                </div>
-              </div>
+              ))}
             </div>
           );
         })}

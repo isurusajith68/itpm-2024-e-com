@@ -40,6 +40,8 @@ import DeliveryManager from "./pages/Ravishka/delivery-manager/DeliveryManager";
 import OrderList from "./pages/Ravishka/delivery-manager/OrderList";
 import FeedbackManager from "./pages/Saranga/feedback-manager/Feedback";
 import UserFeedBacks from "./pages/Saranga/feedback-manager/UserFeedBacks";
+import DashboardService from "./pages/chathruwan/service-manager/DashboardService";
+import DashboardServiceList from "./pages/chathruwan/service-manager/DashboardServiceList";
 
 function App() {
   return (
@@ -106,6 +108,10 @@ function App() {
         {/*Feedback Manager page*/}
         <Route path="/dashboard/feedback" element={<FeedbackManager />} />
         <Route path="/dashboard/feedback/list" element={<UserFeedBacks />} />
+
+        {/* Service manager */}
+        <Route path="/dashboard/service" element={<DashboardService />} />
+        <Route path="/dashboard/service/list" element={<DashboardServiceList />} />
 
         <Route path="/product/:id" element={<ProductPage />} />
         <Route path="/cart" element={<Cart />} />
