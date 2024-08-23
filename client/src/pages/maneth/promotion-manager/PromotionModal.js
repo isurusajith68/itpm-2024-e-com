@@ -31,7 +31,9 @@ const PromotionModal = ({
           discount: discount,
         }),
       });
+
       setTimeout(() => setRefetch(true), 300);
+      onOpenChange();
     } catch (error) {
       console.log(error);
     }
