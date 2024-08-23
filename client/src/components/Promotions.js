@@ -35,10 +35,12 @@ const Promotions = () => {
                   <p className="font-bold text-2xl px-2 pt-4">
                     {p.productName}
                   </p>
-                  <img
-                    className="max-h-[250px] md:max-h-[500px] w-full object-cover rounded-xl"
+                 <div className=" w-full h-[300px]">
+                 <img
+                    className="h-full w-full object-fill rounded-xl"
                     src={p.image}
                   />
+                 </div>
                   <p className="font-bold text-lg px-2 pt-4">
                     Alienware Aurora R16 Gaming Desktop
                   </p>
