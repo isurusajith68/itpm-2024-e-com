@@ -69,7 +69,7 @@ const NavBar = () => {
           <button className="bg-black text-white rounded-full boder border-black  px-5  md:flex hidden py-2 hover:scale-105 duration-300">
             <BsFillCartFill size={20} className="mr-2" />{" "}
             <p className="text-yellow-300 font-bold capitalize">
-              cart({cart?.length})
+              cart({cart?.length || 0})
             </p>
           </button>
         </Link>
