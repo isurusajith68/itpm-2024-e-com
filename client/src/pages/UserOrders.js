@@ -53,7 +53,7 @@ const UserOrders = () => {
         console.log(error);
       }
     };
-
+ 
     fetchUserOrders();
   }, [user]);
   if (loading) {
@@ -66,11 +66,8 @@ const UserOrders = () => {
     );
   }
   return (
-    <UserDash>
+    <div>
       <div className="w-full flex flex-col items-center justify-center">
-        <h1 className="mt-2">
-          <span className="text-2xl font-bold">My Orders</span>
-        </h1>
         <div className="min-w-[1000px] mt-10">
           <Table
             aria-label="Example table with pagination"
@@ -160,7 +157,7 @@ const UserOrders = () => {
         </div>
       </div>
       <AddFeedback isOpen={isOpen} onOpenChange={onOpenChange} order={order} />
-    </UserDash>
+    </div>
   );
 };
 export default UserOrders;
