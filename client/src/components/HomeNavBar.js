@@ -76,9 +76,12 @@ const NavBar = () => {
 
         <div className="flex items-center gap-2 p-1 px-4 text-blue-500 hover:cursor-pointer border rounded-lg hover:scale-105 duration-300">
           <FaUserCircle size={20} />
-          <div>
+          <Link
+            to="/user/profile"
+            className="flex items-center gap-2 hover:cursor-pointer"
+          >
             <h1 className="font-semibold">{user ? user?.username : "user"}</h1>
-          </div>
+          </Link>
         </div>
         <button
           onClick={handleLogout}

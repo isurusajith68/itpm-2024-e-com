@@ -69,4 +69,5 @@ const PromotionModal = ({
     </Modal>
   );
 };
+
 export default PromotionModal;

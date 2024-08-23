@@ -10,7 +10,7 @@ const ProductPage = () => {
   const navigate = useNavigate();
   const handleAddClick = (product) => {
     const sanitizedProduct = {
-      id: product._id,
+      _id: product._id,
       name: product.productName,
       image: product.image,
       price: product.price,

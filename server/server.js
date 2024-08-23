@@ -12,6 +12,8 @@ import supplyRouter from "./router/supplyRouter.js";
 import promotionRouter from "./router/promotionRouter.js";
 import messageRouter from "./controller/sentMessage.js";
 import supplyRequestRouter from "./router/supplyRequestRouter.js";
+import orderRouter from "./router/orderRouter.js";
+import feedbackRouter from "./router/feedbackRouter.js";
 
 const app = express();
 
@@ -26,6 +28,8 @@ app.use("/supplies", supplyRouter);
 app.use("/coupon", promotionRouter);
 app.use("/message", messageRouter);
 app.use("/supply-request", supplyRequestRouter);
+app.use("/orders", orderRouter);
+app.use("/feedback", feedbackRouter);
 
 dotenv.config();
 

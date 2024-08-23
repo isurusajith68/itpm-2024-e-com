@@ -30,6 +30,10 @@ import EditCoupon from "./pages/maneth/promotion-manager/EditCoupon";
 import ProductPage from "./pages/ProductPage";
 import SupplyRequests from "./pages/Piyumal/supply-manager/SupplyRequests";
 import Cart from "./pages/Cart";
+import UserDash from "./pages/UserDash";
+import UserOrders from "./pages/UserOrders";
+import UserService from "./pages/UserService";
+import Userprofile from "./pages/Userprofile";
 
 function App() {
   return (
@@ -87,6 +91,10 @@ function App() {
 
         <Route path="/product/:id" element={<ProductPage />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/user" element={<UserDash />} />
+        <Route path="/user/profile" element={<Userprofile />} />
+        <Route path="/user/orders" element={<UserOrders />} />
+        <Route path="/user/service" element={<UserService />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
