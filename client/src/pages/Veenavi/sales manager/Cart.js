@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import NavBar from "../components/HomeNavBar";
+import NavBar from "../../../components/HomeNavBar";
 import { Link } from "react-router-dom";
-import { useGlobalReefetch } from "../store/Store";
+import { useGlobalReefetch } from "../../../store/Store";
 import CheckOutModal from "./CheckOutModal";
 import { useDisclosure } from "@nextui-org/react";
 import axios from "axios";

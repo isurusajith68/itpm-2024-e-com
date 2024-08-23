@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import UserDash from "./UserDash";
 import ProfilePic from "../assets/gamer.png";
-import UserOrders from "./UserOrders";
+import UserOrders from "./Veenavi/sales manager/UserOrders";
 
 const Userprofile = () => {
   const [user, setUser] = useState(null);

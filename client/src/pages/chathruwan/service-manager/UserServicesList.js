@@ -18,17 +18,26 @@ import { IoSearch } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
-import Layout from "../../../layout/Layout";
-import axios from "axios";
+import UserDash from "../../UserDash";
+import DeleteUserService from "./DeleteUserService";
 
-const DashboardServiceList = () => {
+const UserServicesList = () => {
   const [page, setPage] = useState(1);
   const [service, setService] = useState([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [serviceId, setServiceId] = useState("");
   const [refetch, setRefetch] = useState(false);
+  const [user, setUser] = useState(null);
   const { isOpen, onOpenChange } = useDisclosure();
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("authUser"));
+
+    if (user) {
+      setUser(user);
+    }
+  }, []);
 
   const navigate = useNavigate();
   const rowsPerPage = 6;
@@ -49,7 +58,9 @@ const DashboardServiceList = () => {
   useEffect(() => {
     const fetchCoupon = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/service`);
+        const res = await fetch(
+          `http://localhost:5000/service/get-user-service/${user._id}`
+        );
         const data = await res.json();
 
         setService(data);
@@ -61,84 +72,56 @@ const DashboardServiceList = () => {
     };
 
     fetchCoupon();
-  }, [refetch]);
+  }, [user]);
+  //   const generatePDF = () => {
+  //     const doc = new jsPDF();
+  //     doc.text("Coupon List Report", 14, 10);
 
-  const generatePDF = () => {
-    const doc = new jsPDF();
-    doc.text("User service Report", 14, 10);
+  //     const tableColumn = ["ID", "Coupon Code", "discount", "expiry Date"];
+  //     const tableRows = [];
 
-    const tableColumn = [
-      "#",
-      "Product ID",
-      "Product Name",
-      "User Email",
-      " Purchased Date",
-      " Warranty Period",
-      "Claim Description",
-      "Claim Status",
-    ];
-    const tableRows = [];
+  //     service.forEach((item, index) => {
+  //       const rowData = [
+  //         index + 1,
+  //         item.serviceCode,
+  //         item.discount,
+  //         item.expiryDate,
+  //       ];
 
-    service.forEach((item, index) => {
-      const rowData = [
-        index + 1,
-        item.productID,
-        item.productName,
-        item.user.email,
-        item.productPurchasedDate,
-        item.productWarrantyPeriod,
-        item.claimDescription,
-        item.status,
-      ];
+  //       tableRows.push(rowData);
+  //     });
 
-      tableRows.push(rowData);
-    });
+  //     doc.autoTable({
+  //       head: [tableColumn],
+  //       body: tableRows,
+  //       startY: 20,
+  //     });
 
-    doc.autoTable({
-      head: [tableColumn],
-      body: tableRows,
-      startY: 20,
-    });
-
-    doc.save("service-report.pdf");
-  };
-  const handelChange = async (e, id) => {
-    const res = await axios.put(`http://localhost:5000/service/${id}`, {
-      status: e.target.value,
-    });
-
-    if (res.status === 200) {
-      setRefetch(!refetch);
-    }
-  };
+  //     doc.save("service-list-report.pdf");
+  //   };
 
   if (loading) {
     return (
-      <Layout>
-        <div className="flex justify-center items-center h-full ">
-          <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
-        </div>
-      </Layout>
-    );
-  }
-
-  if (loading) {
-    return (
-      <Layout>
+      <UserDash>
         <div className="flex justify-center items-center h-full">
           <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
         </div>
-      </Layout>
+      </UserDash>
     );
   }
 
   return (
-    <Layout>
+    <UserDash>
       <div className="w-full items-center justify-center flex flex-col">
-        <div className="">
-          <h1 className="mt-2 font-semibold text-lg text-center">
-            User Services
-          </h1>
+        <div className="flex w-[1000px] justify-between">
+          <h1 className="mt-2 font-semibold text-lg">Your Services</h1>
+          <Link
+            to="/user/service"
+            className="mt-5 px-10 w-[200px] h-[40px] bg-blue-500 rounded-xl text-white justify-center items-center flex text-sm"
+            color="primary"
+          >
+            Add New Service
+          </Link>
         </div>
         <div className="flex w-[1000px] justify-between">
           <div>
@@ -150,12 +133,12 @@ const DashboardServiceList = () => {
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
-          <button
+          {/* <button
             className="bg-blue-500 text-white px-4 text-sm rounded-lg"
-            onClick={generatePDF}
+            // onClick={generatePDF}
           >
             Download PDF
-          </button>
+          </button> */}
         </div>
         <div className="min-w-[1000px] mt-2">
           <Table
@@ -177,13 +160,11 @@ const DashboardServiceList = () => {
             <TableHeader>
               <TableColumn>Product ID</TableColumn>
               <TableColumn>Product Name</TableColumn>
-
-              <TableColumn>User Email</TableColumn>
-              <TableColumn> Purchased Date</TableColumn>
-              <TableColumn> Warranty Period</TableColumn>
+              <TableColumn>Product Purchased Date</TableColumn>
+              <TableColumn>Product Warranty Period</TableColumn>
               <TableColumn>Claim Description</TableColumn>
               <TableColumn>Claim Status</TableColumn>
-              {/* <TableColumn>Action</TableColumn> */}
+              <TableColumn>Action</TableColumn>
             </TableHeader>
             <TableBody>
               {items.map((item, index) => {
@@ -197,29 +178,11 @@ const DashboardServiceList = () => {
                   <TableRow key={item._id}>
                     <TableCell>{item.productID}</TableCell>
                     <TableCell>{item.productName}</TableCell>
-
-                    <TableCell>{item.user.email}</TableCell>
                     <TableCell>{formattedDate}</TableCell>
                     <TableCell>{item.productWarrantyPeriod}</TableCell>
                     <TableCell>{item.claimDescription}</TableCell>
-                    <TableCell>
-                      <select
-                        className={
-                          item.status === "Pending"
-                            ? "bg-yellow-500 p-1 rounded-md text-white ring-0"
-                            : item.status === "Confirm"
-                            ? "bg-green-500 p-1 rounded-md text-white ring-0"
-                            : "bg-red-500 p-1 rounded-md text-white ring-0"
-                        }
-                        value={item.status}
-                        onChange={(e) => handelChange(e, item._id)}
-                      >
-                        <option value="Pending">Pending</option>
-                        <option value="Confirm">Confirm</option>
-                        <option value="Rejected">Rejected</option>
-                      </select>
-                    </TableCell>
-                    {/* <TableCell className="flex gap-6">
+                    <TableCell>{item.status}</TableCell>
+                    <TableCell className="flex gap-6">
                       <Tooltip color="danger" content="cancel">
                         <span className="text-lg text-danger cursor-pointer active:opacity-50">
                           <MdDeleteSweep
@@ -230,7 +193,7 @@ const DashboardServiceList = () => {
                           />
                         </span>
                       </Tooltip>
-                    </TableCell> */}
+                    </TableCell>
                   </TableRow>
                 );
               })}
@@ -238,15 +201,15 @@ const DashboardServiceList = () => {
           </Table>
         </div>
       </div>
-      {/* <DeleteUserService
+      <DeleteUserService
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         serviceId={serviceId}
         setServiceId={setServiceId}
         setRefetch={setRefetch}
         setService={setService}
-      /> */}
-    </Layout>
+      />
+    </UserDash>
   );
 };
-export default DashboardServiceList;
+export default UserServicesList;

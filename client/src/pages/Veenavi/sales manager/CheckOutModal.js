@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { loadStripe } from "@stripe/stripe-js";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
-import { useGlobalReefetch } from "../store/Store";
+import { useGlobalReefetch } from "../../../store/Store";
 import { useNavigate } from "react-router-dom";
 
 const CheckOutModal = ({ isOpen, onOpenChange, total }) => {
