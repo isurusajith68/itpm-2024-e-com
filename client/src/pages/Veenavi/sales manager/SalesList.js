@@ -79,7 +79,7 @@ const SalesList = () => {
 
     const tableRows = [];
 
-    items.forEach((item, index) => {
+    sales.forEach((item, index) => {
       const rowData = [
         index + 1,
         item.orderItems.map((p) => p.name).join(", "),

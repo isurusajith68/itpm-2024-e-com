@@ -126,7 +126,7 @@ const UserOrders = () => {
                   </TableCell>
                   <TableCell>{item.orderStatus}</TableCell>
                   <TableCell>
-                    {item.orderStatus === "Success" ? (
+                    {item.orderStatus === "Delivered" ? (
                       <Tooltip content="Add Feedback" color="primary">
                         <span className="text-lg text-blue-900">
                           <FcFeedback

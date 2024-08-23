@@ -68,3 +68,35 @@ export const getOrdersByUserId = async (req, res) => {
     res.status(409).json({ message: error.message });
   }
 };
+
+export const updateOrderStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { orderStatus } = req.body;
+    console.log("id", id);
+    console.log("orderStatus", orderStatus);
+    const order = await Order.findById(id);
+
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    order.orderStatus = orderStatus;
+
+    await order.save();
+
+    res.status(200).json(order);
+  } catch (error) {
+    res.status(409).json({ message: error.message });
+  }
+};
+
+export const DeleteOrder = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Order.findByIdAndDelete(id);
+    res.status(200).json({ message: "Order deleted successfully" });
+  } catch (error) {
+    res.status(409).json({ message: error.message });
+  }
+};

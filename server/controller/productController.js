@@ -56,8 +56,10 @@ export const updateProduct = async (req, res) => {
     existingProduct.category = product.category || existingProduct.category;
     existingProduct.quantity = product.quantity || existingProduct.quantity;
     existingProduct.price = product.price || existingProduct.price;
-    existingProduct.description =
-      product.description || existingProduct.description;
+    existingProduct.processor = product.processor || existingProduct.processor;
+    existingProduct.os = product.os || existingProduct.os;
+    existingProduct.graphics = product.graphics || existingProduct.graphics;
+    existingProduct.storage = product.storage || existingProduct.storage;
     existingProduct.image = product.image || existingProduct.image;
     if (existingProduct.promotion) {
       existingProduct.promotion = false;
