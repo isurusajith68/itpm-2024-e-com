@@ -267,19 +267,20 @@ const ProductPage = () => {
           if (productFeedbacks.length === 0) return null;
 
           return (
-            <div key={index} className="grid grid-cols-3 gap-4">
+            <div key={index} className="grid grid-cols-3  gap-4">
               {productFeedbacks.map((productFeedback, subIndex) => (
-                <div key={subIndex} className="p-4 flex gap-2">
-                  <div className="w-[100px] h-[100px]">
+                <div key={subIndex} className="p-4 flex gap-2 ">
+                  <div className="w-[120px] h-[100px]">
                     <img
                       src={ProfilePic}
                       alt="Profile"
-                      className="w-full h-full object-cover rounded-full"
+                      className=" object-cover rounded-full"
                     />
                   </div>
-                  <div className="w-full  rounded-lg p-4">
-                    <p className=" text-lg font-semibold">{feedback.user.email}</p>
-                    {feedback.feedback}
+                  
+                  <div className="w-full  rounded-lg p-4 bg-slate-400 ">
+                    <p className=" text-lg font-semibold">{feedback.user.username}</p>
+                    <p className=" first-letter:capitalize">{feedback.feedback}</p>
                     <ReactStars
                       size={30}
                       edit={false}
