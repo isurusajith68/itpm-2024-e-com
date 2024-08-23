@@ -59,7 +59,7 @@ export const getAllOrders = async (req, res) => {
   }
 };
 
-export const getOrdersByUserId = async (req, res) => {
+export const getOrdersByUserId = async (req, res) => { 
   try {
     const orders = await Order.find({ user: req.params.id });
 

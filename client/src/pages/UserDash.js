@@ -34,19 +34,7 @@ const UserDash = ({ children }) => {
               <span className="ml-2 text-white">Profile</span>
             </Link>
           </div>
-          <div>
-            <Link
-              to="/user/orders"
-              className={
-                pathname.startsWith("/user/orders")
-                  ? "p-2 px-10  flex gap-2 text-green-600 hover:bg-red-900 hover:rounded-lg border transition duration-300 border-white shadow-sm bg-red-900 rounded-lg cursor-pointer  items-center"
-                  : "p-2  px-10  flex gap-2 hover:bg-green-500 hover:rounded-lg border transition duration-300  border-white shadow-sm bg-green-700 rounded-lg cursor-pointer  items-center"
-              }
-            >
-              <FaCarTunnel size={20} className="text-white" />
-              <span className="ml-2 text-white">Order</span>
-            </Link>
-          </div>
+          
           <div>
             <Link
               to="/user/service"
