@@ -130,7 +130,7 @@ const SideBar = () => {
             <Link
               to="/dashboard/delivery"
               className={
-                pathname.startsWith("/dashboard/delivery")
+                pathname.startsWith("/dashboard/order")
                   ? "p-2  flex gap-2 text-blue-800 hover:bg-blue-500 hover:rounded-lg border transition duration-300 border-white shadow-sm bg-blue-900 rounded-lg cursor-pointer items-center"
                   : "p-2  flex gap-2 hover:bg-blue-500 hover:rounded-lg border transition duration-300 border-white shadow-sm bg-blue-700 rounded-lg cursor-pointer  items-center"
               }

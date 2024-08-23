@@ -86,7 +86,7 @@ const CheckOutModal = ({ isOpen, onOpenChange, total }) => {
           localStorage.removeItem("cart");
           setGlobalRefetch(!globalRefetch);
           onOpenChange();
-          navigate("/user/orders");
+          navigate("/user/profile");
         }
       } catch (error) {
         toast.error("Failed to place order");
@@ -98,7 +98,7 @@ const CheckOutModal = ({ isOpen, onOpenChange, total }) => {
         toast.success("Order placed successfully");
         localStorage.removeItem("cart");
         setGlobalRefetch(!globalRefetch);
-        navigate("/user/orders");
+        navigate("/user/profile");
         onOpenChange();
       } catch (error) {
         toast.error("Failed to place order");
