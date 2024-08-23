@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 import NavBar from "../components/HomeNavBar";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import ProfilePic from "../assets/gamer.png";
 
 const ProductPage = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
+  const [feedbacks, setFeedbacks] = useState([]);
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
   const handleAddClick = (product) => {
     const sanitizedProduct = {
@@ -34,6 +37,12 @@ const ProductPage = () => {
     localStorage.setItem("cart", JSON.stringify(cart));
     navigate(`/cart`);
   };
+  useEffect(() => {
+    const storedUser = localStorage.getItem("authUser");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -51,6 +60,28 @@ const ProductPage = () => {
     fetchProduct();
   }, [id]);
 
+  useEffect(() => {
+    if (user && user._id) {
+      // Ensure user is not null and _id is available
+      const fetchSales = async () => {
+        try {
+          const res = await fetch(
+            `http://localhost:5000/feedback/get-feedbacks/${user._id}`
+          );
+          const data = await res.json();
+          setFeedbacks(data);
+          setLoading(false);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+      fetchSales();
+    }
+  }, [user]);
+
+  console.log("feed", feedbacks);
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -58,7 +89,7 @@ const ProductPage = () => {
       </div>
     );
   }
-  console.log(product);
+
   return (
     <>
       <NavBar />
@@ -240,6 +271,21 @@ const ProductPage = () => {
             </div>
           </div>
         </div>
+        <hr className=" border-2-2 mt-3 mb-3" />
+        {feedbacks?.map((feedback, index) => {
+          return (
+            <div className="grid grid-cols-3 gap-4">
+              <div className=" p-4 flex gap-2">
+                <div className=" w-[100px] h-[100px] ">
+                  <img src={ProfilePic} />
+                </div>
+                <div className="w-full bg-slate-400 rounded-lg p-4">
+                  {feedback.feedback}
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </>
   );
