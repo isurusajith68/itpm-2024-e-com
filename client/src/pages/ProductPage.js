@@ -3,6 +3,7 @@ import NavBar from "../components/HomeNavBar";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import ProfilePic from "../assets/gamer.png";
+import ReactStars from "react-rating-stars-component";
 
 const ProductPage = () => {
   const [product, setProduct] = useState(null);
@@ -36,7 +37,7 @@ const ProductPage = () => {
     localStorage.setItem("cart", JSON.stringify(cart));
     navigate(`/cart`);
   };
-
+  console.log("feed", feedbacks);
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -276,8 +277,14 @@ const ProductPage = () => {
                       className="w-full h-full object-cover rounded-full"
                     />
                   </div>
-                  <div className="w-full bg-slate-400 rounded-lg p-4">
+                  <div className="w-full  rounded-lg p-4">
+                    <p className=" text-lg font-semibold">{feedback.user.email}</p>
                     {feedback.feedback}
+                    <ReactStars
+                      size={30}
+                      edit={false}
+                      value={feedback.rating}
+                    />
                   </div>
                 </div>
               ))}
