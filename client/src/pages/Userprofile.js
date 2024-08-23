@@ -42,8 +42,12 @@ const Userprofile = () => {
       <>
         <div className=" flex items-center flex-col">
           <img className="w-[100px] " src={ProfilePic} />
-          <p className=" text-2xl font-bold">{user.username}</p>
-          <UserOrders />
+          <p className=" text-2xl font-bold">Hello, {user?.username}</p>
+          <div>
+            <p className=" text-xl font-semibold">Purches History</p>
+            <hr />
+            <UserOrders />
+          </div>
         </div>
       </>
     </UserDash>
