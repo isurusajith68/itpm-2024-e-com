@@ -59,9 +59,22 @@ const Promotions = () => {
                     </span>
                     <span className="flex items-center gap-3">
                       <p className="text-lg font-bold">Price:</p>
-                      <span className="line-through">LKR.{p.price}</span>
+                      <span className="line-through">
+                        LKR.
+                        {p.price.toLocaleString("en-US", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}
+                      </span>
                       <span className="text-orange-600 text-2xl">
-                        LKR.{(p.price * p.discount) / 100}/=
+                        LKR.
+                        {(
+                          p.price -
+                          (p.price * p.discount) / 100
+                        ).toLocaleString("en-US", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}
                       </span>
                     </span>
                   </div>

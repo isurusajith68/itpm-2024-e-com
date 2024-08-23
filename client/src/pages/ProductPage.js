@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import NavBar from "../components/HomeNavBar";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 const ProductPage = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
-
+  const navigate = useNavigate();
   const handleAddClick = (product) => {
     const sanitizedProduct = {
       id: product._id,
@@ -16,6 +16,7 @@ const ProductPage = () => {
       price: product.price,
       quantity: product.quantity,
       selectedQuantity: 1,
+      discount: product.discount,
     };
 
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -31,6 +32,7 @@ const ProductPage = () => {
     }
 
     localStorage.setItem("cart", JSON.stringify(cart));
+    navigate(`/cart`);
   };
 
   useEffect(() => {
@@ -194,7 +196,37 @@ const ProductPage = () => {
                   </div>
                 </div>
               </div>
-              <p className=" text-2xl font-bold">LKR : 350,000/=</p>
+              {product.discount > 0 ? (
+                <div>
+                  <span className="line-through">
+                    LKR.
+                    {product.price.toLocaleString("en-US", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
+                  </span>
+                  <span className="text-orange-600 text-2xl">
+                    LKR.
+                    {(
+                      product.price -
+                      (product.price * product.discount) / 100
+                    ).toLocaleString("en-US", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
+                  </span>
+                </div>
+              ) : (
+                <div>
+                  <span className="text-2xl font-bold">
+                    LKR.
+                    {product.price.toLocaleString("en-US", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
+                  </span>
+                </div>
+              )}
               <button
                 onClick={
                   product.quantity > 0

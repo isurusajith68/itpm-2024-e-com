@@ -19,7 +19,13 @@ function HeadLineCards({ setLoading, product }) {
                 Order Now
               </button>
               <div className=" bg-white w-[150px] flex justify-center ml-3 rounded-lg">
-                <p className=" text-blue-600">LKR. {p.price}</p>
+                <p className=" text-blue-600">
+                  LKR.{" "}
+                  {p.price.toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                </p>
               </div>
             </div>
             <img

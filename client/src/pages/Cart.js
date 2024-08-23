@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import NavBar from "../components/HomeNavBar";
 import { Link } from "react-router-dom";
+import { useGlobalReefetch } from "../store/Store";
 
 const Cart = () => {
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
   const [savings, setSavings] = useState(0);
   const [originalPrice, setOriginalPrice] = useState(0);
+  const { globalRefetch, setGlobalRefetch } = useGlobalReefetch();
 
   useEffect(() => {
     const getCart = async () => {
@@ -44,6 +46,7 @@ const Cart = () => {
     const updatedCart = cart.filter((product) => product.id !== id);
     setCart(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
+    setGlobalRefetch(!globalRefetch);
   };
 
   useEffect(() => {
@@ -52,10 +55,20 @@ const Cart = () => {
         return acc + item.price * item.selectedQuantity;
       }, 0);
       setOriginalPrice(originalPrice);
-      setTotal(originalPrice);
+    };
+
+    const calculationDiscountPrice = () => {
+      const discountPrice = cart.reduce((acc, item) => {
+        return (
+          acc + ((item.price * item.discount) / 100) * item.selectedQuantity
+        );
+      }, 0);
+
+      setSavings(discountPrice);
     };
 
     calculateOriginalPrice();
+    calculationDiscountPrice();
   }, [cart]);
 
   return (
@@ -137,7 +150,13 @@ const Cart = () => {
                           </div>
                           <div className="text-end md:order-4 md:w-32">
                             <p className="text-base font-bold text-gray-900 ">
-                              LKR. {product.price * product.selectedQuantity} /=
+                              LKR.{" "}
+                              {(
+                                product.price * product.selectedQuantity
+                              ).toLocaleString("en-US", {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                              })}{" "}
                             </p>
                           </div>
                         </div>
@@ -197,7 +216,11 @@ const Cart = () => {
                         Original price
                       </dt>
                       <dd className="text-base font-medium text-gray-900 ">
-                        LKR. {originalPrice.toFixed(2)}
+                        LKR.{" "}
+                        {originalPrice.toLocaleString("en-US", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}
                       </dd>
                     </dl>
 
@@ -206,7 +229,11 @@ const Cart = () => {
                         Savings
                       </dt>
                       <dd className="text-base font-medium text-green-600">
-                        LKR. {savings.toFixed(2)}
+                        LKR.{" "}
+                        {savings.toLocaleString("en-US", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}
                       </dd>
                     </dl>
                   </div>
@@ -216,7 +243,13 @@ const Cart = () => {
                       Total
                     </dt>
                     <dd className="text-base font-bold text-gray-900 ">
-                      LKR. {total.toFixed(2)}
+                      LKR.{" "}
+                      {originalPrice - savings > 0
+                        ? (originalPrice - savings).toLocaleString("en-US", {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                          })
+                        : 0}
                     </dd>
                   </dl>
                 </div>
@@ -233,10 +266,9 @@ const Cart = () => {
                     {" "}
                     or{" "}
                   </span>
-                  <a
-                    href="#"
-                    title=""
+                  <Link 
                     className="inline-flex items-center gap-2 text-sm font-medium text-primary-700 underline hover:no-underline dark:text-primary-500"
+                    to = '/'
                   >
                     Continue Shopping
                     <svg
@@ -254,7 +286,7 @@ const Cart = () => {
                         d="M19 12H5m14 0-4 4m4-4-4-4"
                       />
                     </svg>
-                  </a>
+                  </Link>
                 </div>
               </div>
 

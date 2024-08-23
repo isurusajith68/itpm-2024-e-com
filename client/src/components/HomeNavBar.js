@@ -14,10 +14,13 @@ import { MdFavorite, MdHelp } from "react-icons/md";
 import { FaUserFriends, FaWallet } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { RiLogoutBoxLine } from "react-icons/ri";
+import { useGlobalReefetch } from "../store/Store";
 
 const NavBar = () => {
   const [nav, setNav] = useState(false);
   const [user, setUser] = useState(null);
+  const [cart, setCart] = useState(null);
+  const { globalRefetch, setGlobalRefetch } = useGlobalReefetch();
 
   const handleLogout = () => {
     localStorage.removeItem("authUser");
@@ -31,7 +34,10 @@ const NavBar = () => {
     }
 
     setUser(JSON.parse(user));
-  }, []);
+
+    const cart = localStorage.getItem("cart");
+    setCart(JSON.parse(cart));
+  }, [globalRefetch]);
 
   return (
     <div className="max-w-[1640px] mx-auto flex justify-between items-center p-4">
@@ -62,7 +68,9 @@ const NavBar = () => {
         <Link to="/cart">
           <button className="bg-black text-white rounded-full boder border-black  px-5  md:flex hidden py-2 hover:scale-105 duration-300">
             <BsFillCartFill size={20} className="mr-2" />{" "}
-            <p className="text-yellow-300 font-bold capitalize">cart</p>
+            <p className="text-yellow-300 font-bold capitalize">
+              cart({cart?.length})
+            </p>
           </button>
         </Link>
 
