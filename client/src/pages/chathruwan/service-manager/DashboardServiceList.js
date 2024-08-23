@@ -198,7 +198,7 @@ const DashboardServiceList = () => {
                     <TableCell>{item.productID}</TableCell>
                     <TableCell>{item.productName}</TableCell>
 
-                    <TableCell>{item.user.email}</TableCell>
+                    <TableCell>{item?.user?.email}</TableCell>
                     <TableCell>{formattedDate}</TableCell>
                     <TableCell>{item.productWarrantyPeriod}</TableCell>
                     <TableCell>{item.claimDescription}</TableCell>
