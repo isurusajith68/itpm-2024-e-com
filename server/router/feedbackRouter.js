@@ -6,6 +6,6 @@ const feedbackRouter = express.Router();
 feedbackRouter.get("/", getFeedback);
 feedbackRouter.post("/", createFeedback);
 feedbackRouter.delete("/:id", deleteFeedback);
-feedbackRouter.get("/get-feedbacks/:id", getFeedBackssByUserId)
+
 
 export default feedbackRouter;

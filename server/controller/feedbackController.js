@@ -29,15 +29,7 @@ export const createFeedback = async (req, res) => {
   }
 };
 
-export const getFeedBackssByUserId = async (req, res) => { 
-  try {
-    const feedbacks = await Feedback.find({ user: req.params.id });
 
-    res.status(200).json(feedbacks);
-  } catch (error) {
-    res.status(409).json({ message: error.message });
-  }
-};
 
 export const deleteFeedback = async (req, res) => {
   try {

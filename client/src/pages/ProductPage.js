@@ -9,7 +9,6 @@ const ProductPage = () => {
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
   const [feedbacks, setFeedbacks] = useState([]);
-  const [user, setUser] = useState(null);
   const navigate = useNavigate();
   const handleAddClick = (product) => {
     const sanitizedProduct = {
@@ -37,12 +36,6 @@ const ProductPage = () => {
     localStorage.setItem("cart", JSON.stringify(cart));
     navigate(`/cart`);
   };
-  useEffect(() => {
-    const storedUser = localStorage.getItem("authUser");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-  }, []);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -61,24 +54,20 @@ const ProductPage = () => {
   }, [id]);
 
   useEffect(() => {
-    if (user && user._id) {
-      // Ensure user is not null and _id is available
-      const fetchSales = async () => {
-        try {
-          const res = await fetch(
-            `http://localhost:5000/feedback/get-feedbacks/${user._id}`
-          );
-          const data = await res.json();
-          setFeedbacks(data);
-          setLoading(false);
-        } catch (error) {
-          console.log(error);
-        }
-      };
+    const fetchSales = async () => {
+      try {
+        const res = await fetch(`http://localhost:5000/feedback`);
+        const data = await res.json();
+        
+        setFeedbacks(data);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-      fetchSales();
-    }
-  }, [user]);
+    fetchSales();
+  }, []);
 
   console.log("feed", feedbacks);
 
