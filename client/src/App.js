@@ -38,6 +38,8 @@ import SalesManager from "./pages/Veenavi/sales manager/SalesManager";
 import SalesList from "./pages/Veenavi/sales manager/SalesList";
 import DeliveryManager from "./pages/Ravishka/delivery-manager/DeliveryManager";
 import OrderList from "./pages/Ravishka/delivery-manager/OrderList";
+import FeedbackManager from "./pages/Saranga/feedback-manager/Feedback";
+import UserFeedBacks from "./pages/Saranga/feedback-manager/UserFeedBacks";
 
 function App() {
   return (
@@ -97,10 +99,13 @@ function App() {
         <Route path="/dashboard/sales" element={<SalesManager />} />
         <Route path="/dashboard/sales/list" element={<SalesList />} />
 
-
         {/*delivery manager*/}
         <Route path="/dashboard/delivery" element={<DeliveryManager />} />
         <Route path="/dashboard/order/list" element={<OrderList />} />
+
+        {/*Feedback Manager page*/}
+        <Route path="/dashboard/feedback" element={<FeedbackManager />} />
+        <Route path="/dashboard/feedback/list" element={<UserFeedBacks />} />
 
         <Route path="/product/:id" element={<ProductPage />} />
         <Route path="/cart" element={<Cart />} />
