@@ -78,7 +78,7 @@ const AddCoupon = () => {
             <Input
               size="md"
               variant="filled"
-              type="text"
+              type="number"
               label="Discount"
               className="text-sm"
               placeholder="Enter discount"

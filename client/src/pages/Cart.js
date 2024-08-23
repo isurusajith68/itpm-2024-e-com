@@ -4,13 +4,17 @@ import { Link } from "react-router-dom";
 import { useGlobalReefetch } from "../store/Store";
 import CheckOutModal from "./CheckOutModal";
 import { useDisclosure } from "@nextui-org/react";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const Cart = () => {
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
+  const [coupon, setCoupon] = useState("");
   const [savings, setSavings] = useState(0);
   const [originalPrice, setOriginalPrice] = useState(0);
   const { globalRefetch, setGlobalRefetch } = useGlobalReefetch();
+  const [couponDiscount, setCouponDiscount] = useState(0);
 
   useEffect(() => {
     const getCart = async () => {
@@ -74,6 +78,38 @@ const Cart = () => {
   }, [cart]);
 
   const { isOpen, onOpenChange } = useDisclosure();
+
+  useEffect(() => {
+    setTotal(originalPrice - savings - couponDiscount);
+  }, [originalPrice, savings, couponDiscount]);
+
+  const addCoupon = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/coupon/valid-coupon",
+        {
+          couponCode: coupon,
+        }
+      );
+
+      if (res.data.coupon) {
+        const couponDiscount = res.data.coupon.discount;
+        const expiryDate = res.data.coupon.expiryDate;
+
+        if (new Date(expiryDate) < new Date()) {
+          toast.error("Coupon has expired");
+        } else {
+          setCouponDiscount((total * couponDiscount) / 100);
+          toast.success("Coupon Applied Successfully");
+        }
+      }
+    } catch (error) {
+      toast.error("Invalid Coupon Code");
+      setCouponDiscount(0);
+    }
+  };
 
   return (
     <>
@@ -246,6 +282,18 @@ const Cart = () => {
                         })}
                       </dd>
                     </dl>
+                    <dl className="flex items-center justify-between gap-4">
+                      <dt className="text-base font-normal text-gray-500 ">
+                        Coupon Discount
+                      </dt>
+                      <dd className="text-base font-medium text-green-600">
+                        LKR.{" "}
+                        {couponDiscount.toLocaleString("en-US", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}
+                      </dd>
+                    </dl>
                   </div>
 
                   <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
@@ -254,8 +302,8 @@ const Cart = () => {
                     </dt>
                     <dd className="text-base font-bold text-gray-900 ">
                       LKR.{" "}
-                      {originalPrice - savings > 0
-                        ? (originalPrice - savings).toLocaleString("en-US", {
+                      {total > 0
+                        ? total.toLocaleString("en-US", {
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 2,
                           })
@@ -322,7 +370,7 @@ const Cart = () => {
                       id="voucher"
                       className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 "
                       placeholder=""
-                      required
+                      onChange={(e) => setCoupon(e.target.value)}
                     />
                   </div>
                   <button
@@ -333,6 +381,7 @@ const Cart = () => {
                         ? "bg-gray-400 text-gray-700 cursor-not-allowed"
                         : "bg-primary-700 text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                     }`}
+                    onClick={cart.length === 0 ? "" : addCoupon}
                   >
                     Apply Code
                   </button>
@@ -351,6 +400,7 @@ const Cart = () => {
         setGlobalRefetch={setGlobalRefetch}
         originalPrice={originalPrice}
         savings={savings}
+        total={total}
       />
     </>
   );

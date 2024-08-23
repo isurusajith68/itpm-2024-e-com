@@ -118,7 +118,7 @@ const EditCoupon = () => {
             <Input
               size="md"
               variant="filled"
-              type="text"
+              type="number"
               label="Discount"
               className="text-sm"
               placeholder="Enter discount"

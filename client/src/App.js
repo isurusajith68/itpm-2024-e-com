@@ -34,6 +34,8 @@ import UserDash from "./pages/UserDash";
 import UserOrders from "./pages/UserOrders";
 import UserService from "./pages/UserService";
 import Userprofile from "./pages/Userprofile";
+import SalesManager from "./pages/Veenavi/sales manager/SalesManager";
+import SalesList from "./pages/Veenavi/sales manager/SalesList";
 
 function App() {
   return (
@@ -88,6 +90,10 @@ function App() {
           path="/dashboard/promotion/coupon/edit/:id"
           element={<EditCoupon />}
         />
+
+        {/*Sales manager*/}
+        <Route path="/dashboard/sales" element={<SalesManager />} />
+        <Route path="/dashboard/sales/list" element={<SalesList />} />
 
         <Route path="/product/:id" element={<ProductPage />} />
         <Route path="/cart" element={<Cart />} />

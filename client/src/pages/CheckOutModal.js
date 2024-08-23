@@ -18,16 +18,7 @@ import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import { useGlobalReefetch } from "../store/Store";
 import { useNavigate } from "react-router-dom";
 
-const CheckOutModal = ({
-  isOpen,
-  onOpenChange,
-  staffId,
-  setStaff,
-  setStaffId,
-  setRefetch,
-  originalPrice,
-  savings,
-}) => {
+const CheckOutModal = ({ isOpen, onOpenChange, total }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [name, setName] = useState("");
@@ -58,7 +49,7 @@ const CheckOutModal = ({
       shippingAddress: { name, email, city, phone, address },
       user,
       cart,
-      totalPrice: originalPrice - savings,
+      totalPrice: total,
       paymentMethod,
     };
 

@@ -24,7 +24,7 @@ const UserOrders = () => {
   const [page, setPage] = useState(1);
   const { isOpen, onOpenChange } = useDisclosure();
 
-  const rowsPerPage = 6;
+  const rowsPerPage = 3;
   const pages = Math.ceil(orders.length / rowsPerPage);
 
   useEffect(() => {
