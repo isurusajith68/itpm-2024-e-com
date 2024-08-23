@@ -43,8 +43,8 @@ const SalesList = () => {
       try {
         const res = await fetch(`http://localhost:5000/orders`);
         const data = await res.json();
-        const orderSuccess = data.filter((i) => i.orderStatus === "Success");
-        setSales(orderSuccess);
+        // const orderSuccess = data.filter((i) => i.orderStatus === "Success");
+        setSales(data);
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -56,16 +56,25 @@ const SalesList = () => {
 
   const generatePDF = () => {
     const doc = new jsPDF();
-    doc.text("Salary List", 14, 10);
+
+    doc.text("Sales Report", 14, 10);
+
+    doc.text(
+      `Total Sales: LKR ${totalSales.toLocaleString("en-US", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })}`,
+      14,
+      20
+    );
 
     const tableColumn = [
       "Id",
-      "Employee",
-      "Basic Salary",
-      "Allowances",
-      "OT",
-      "OT Pay",
-      "Date",
+      "Order Item",
+      "Shipping Address",
+      "Payment Method",
+      "Total Price",
+      "Order Status",
     ];
 
     const tableRows = [];
@@ -73,12 +82,14 @@ const SalesList = () => {
     items.forEach((item, index) => {
       const rowData = [
         index + 1,
-        item.employee,
-        item.basicSalary,
-        item.allowances,
-        item.ot,
-        item.otPay,
-        item.date,
+        item.orderItems.map((p) => p.name).join(", "),
+        item.shippingAddress.address,
+        item.paymentMethod,
+        `LKR ${item.totalPrice.toLocaleString("en-US", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })}`,
+        item.orderStatus,
       ];
       tableRows.push(rowData);
     });
@@ -86,7 +97,7 @@ const SalesList = () => {
     doc.autoTable({
       head: [tableColumn],
       body: tableRows,
-      startY: 20,
+      startY: 30,
     });
 
     doc.save("sales-report.pdf");
@@ -160,6 +171,7 @@ const SalesList = () => {
             <TableHeader>
               <TableColumn>Id</TableColumn>
               <TableColumn>Order Item</TableColumn>
+              <TableColumn>User name</TableColumn>
               <TableColumn>Shipping Address</TableColumn>
               <TableColumn>Payment Method</TableColumn>
               <TableColumn>Total Price</TableColumn>
@@ -168,7 +180,7 @@ const SalesList = () => {
             <TableBody>
               {items.map(
                 (item, index) =>
-                  item.orderStatus === "Success" && (
+                //   item.orderStatus === "Success" && (
                     <TableRow key={item._id} className="border-b-1">
                       <TableCell>{index + 1}</TableCell>
                       <TableCell>
@@ -185,6 +197,7 @@ const SalesList = () => {
                           );
                         })}
                       </TableCell>
+                      <TableCell>{item?.user?.username}</TableCell>
                       <TableCell>{item.shippingAddress.address}</TableCell>
                       <TableCell>{item.paymentMethod}</TableCell>
                       <TableCell>
@@ -196,7 +209,7 @@ const SalesList = () => {
                       </TableCell>
                       <TableCell>{item.orderStatus}</TableCell>
                     </TableRow>
-                  )
+                //   )
               )}
             </TableBody>
           </Table>
