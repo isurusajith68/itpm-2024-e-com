@@ -62,7 +62,7 @@ const CheckOutModal = ({ isOpen, onOpenChange, total }) => {
       try {
         const response = await axios.post(
           "http://localhost:5000/orders/create-payment-intent",
-          { totalPrice: data.totalPrice }
+          { totalPrice: data.totalPrice / 300 }
         );
 
         const clientSecret = response.data.clientSecret;
