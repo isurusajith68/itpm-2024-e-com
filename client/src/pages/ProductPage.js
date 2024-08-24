@@ -91,6 +91,7 @@ const ProductPage = () => {
             <img
               className=" w-full object-cover rounded-xl"
               src={product?.image}
+              alt="product"
             />
           </div>
           <div className="h-auto border-l-2 border-gray-300"></div>
@@ -114,10 +115,7 @@ const ProductPage = () => {
 
                   {/* Row 2 */}
                   <div className="">
-                    <span className=" text-lg ">
-                      intel® Core™ i9 14900KF (68 MB cache, 24 cores, up to 6.0
-                      GHz P-Core Thermal Velocity)
-                    </span>
+                    <span className=" text-lg ">{product?.processor}</span>
                   </div>
                 </div>
                 <div className=" flex gap-x-2  mb-3">
@@ -133,9 +131,7 @@ const ProductPage = () => {
 
                   {/* Row 2 */}
                   <div className="">
-                    <span className=" text-lg ">
-                      Windows 11 Home, English, French, Spanish
-                    </span>
+                    <span className=" text-lg ">{product?.os}</span>
                   </div>
                 </div>
 
@@ -152,9 +148,7 @@ const ProductPage = () => {
 
                   {/* Row 2 */}
                   <div className="">
-                    <span className=" text-lg ">
-                      NVIDIA® GeForce RTX™ 4090, 24 GB GDDR6X
-                    </span>
+                    <span className=" text-lg ">{product?.graphics}</span>
                   </div>
                 </div>
 
@@ -190,27 +184,7 @@ const ProductPage = () => {
 
                   {/* Row 2 */}
                   <div className="">
-                    <span className=" text-lg ">2 TB, M.2, PCIe NVMe, SSD</span>
-                  </div>
-                </div>
-
-                <div className=" flex gap-x-2  mb-3">
-                  {/* Row 1 */}
-                  <div className="mr-2">
-                    <img
-                      width="22"
-                      height="22"
-                      src="https://img.icons8.com/ios/50/paint-palette.png"
-                      alt="paint-palette"
-                    />
-                  </div>
-
-                  {/* Row 2 */}
-                  <div className="">
-                    <span className=" text-lg ">
-                      1000W Platinum Rated PSU, 240mm Liquid-Cooled CPU & Clear
-                      Side Panel
-                    </span>
+                    <span className=" text-lg ">{product.storage} </span>
                   </div>
                 </div>
               </div>
@@ -268,7 +242,7 @@ const ProductPage = () => {
           if (productFeedbacks.length === 0) return null;
 
           return (
-            <div key={index} className="grid grid-cols-3 gap-4">
+            <div key={index} className="grid grid-cols-3  gap-4">
               {productFeedbacks.map((productFeedback, subIndex) => (
                 <div
                   key={subIndex}
@@ -278,14 +252,17 @@ const ProductPage = () => {
                     <img
                       src={ProfilePic}
                       alt="Profile"
-                      className="w-full h-full object-cover rounded-full"
+                      className=" object-cover rounded-full"
                     />
                   </div>
-                  <div className="w-full  rounded-lg p-4">
+
+                  <div className="w-full  rounded-lg p-4 bg-slate-200 mt-2">
                     <p className=" text-lg font-semibold">
                       {feedback.user.username}
                     </p>
-                    {feedback.feedback}
+                    <p className=" first-letter:capitalize">
+                      {feedback.feedback}
+                    </p>
                     <ReactStars
                       size={30}
                       edit={false}
