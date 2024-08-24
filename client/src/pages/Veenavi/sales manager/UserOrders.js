@@ -9,10 +9,6 @@ import {
   Tooltip,
   useDisclosure,
 } from "@nextui-org/react";
-import UserDash from "../../UserDash";
-import { FaUserEdit } from "react-icons/fa";
-import { MdDeleteSweep } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import { FcFeedback } from "react-icons/fc";
 import AddFeedback from "../../Saranga/feedback-manager/AddFeedback";

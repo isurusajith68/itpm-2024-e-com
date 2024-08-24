@@ -12,11 +12,10 @@ import {
   Tooltip,
   useDisclosure,
 } from "@nextui-org/react";
-import { FaUserEdit } from "react-icons/fa";
+
 import { useEffect, useMemo, useState } from "react";
 import { IoSearch } from "react-icons/io5";
-import { Link, useNavigate } from "react-router-dom";
-import jsPDF from "jspdf";
+import { Link } from "react-router-dom";
 import "jspdf-autotable";
 import UserDash from "../../UserDash";
 import DeleteUserService from "./DeleteUserService";
@@ -39,7 +38,6 @@ const UserServicesList = () => {
     }
   }, []);
 
-  const navigate = useNavigate();
   const rowsPerPage = 6;
   const pages = Math.ceil(service.length / rowsPerPage);
 
@@ -65,7 +63,7 @@ const UserServicesList = () => {
 
         setService(data);
         setLoading(false);
-        setRefetch(false);
+        setRefetch(!refetch);
       } catch (error) {
         console.log(error);
       }

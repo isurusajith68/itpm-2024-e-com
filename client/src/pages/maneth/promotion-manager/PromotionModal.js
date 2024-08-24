@@ -7,7 +7,6 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@nextui-org/react";
-import axios from "axios";
 import { useState } from "react";
 
 const PromotionModal = ({
@@ -15,7 +14,6 @@ const PromotionModal = ({
   onOpenChange,
   setRefetch,
   selectedProduct,
-  setSelectedProduct,
 }) => {
   const [discount, setDiscount] = useState(0);
 

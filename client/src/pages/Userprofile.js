@@ -6,8 +6,7 @@ import UserOrders from "./Veenavi/sales manager/UserOrders";
 const Userprofile = () => {
   const [user, setUser] = useState(null);
   const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
-
+ 
   useEffect(() => {
     const user = localStorage.getItem("authUser");
     if (!user) {
@@ -26,7 +25,7 @@ const Userprofile = () => {
         const data = await res.json();
 
         setOrders(data);
-        setLoading(false);
+    
       } catch (error) {
         console.log(error);
       }

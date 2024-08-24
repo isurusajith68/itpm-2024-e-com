@@ -14,7 +14,7 @@ const DeleteProductModel = ({
   productId,
   setProduct,
   setProductId,
-  setRefetch,
+
 }) => {
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange}>

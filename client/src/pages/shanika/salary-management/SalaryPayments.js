@@ -12,10 +12,9 @@ import {
   Tooltip,
   useDisclosure,
 } from "@nextui-org/react";
-import { FaUserEdit } from "react-icons/fa";
+
 import { useEffect, useMemo, useState } from "react";
 import { IoSearch } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import DeleteSalaryModel from "./DeleteSalaryModel";
@@ -30,7 +29,6 @@ const SalaryPayments = () => {
 
   const { isOpen, onOpenChange } = useDisclosure();
 
-  const navigate = useNavigate();
   const rowsPerPage = 6;
   const pages = Math.ceil(salary.length / rowsPerPage);
 

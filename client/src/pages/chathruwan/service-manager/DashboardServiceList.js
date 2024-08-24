@@ -1,4 +1,3 @@
-import { MdDeleteSweep } from "react-icons/md";
 
 import {
   Input,
@@ -9,13 +8,9 @@ import {
   TableColumn,
   TableHeader,
   TableRow,
-  Tooltip,
-  useDisclosure,
 } from "@nextui-org/react";
-import { FaUserEdit } from "react-icons/fa";
 import { useEffect, useMemo, useState } from "react";
 import { IoSearch } from "react-icons/io5";
-import { Link, useNavigate } from "react-router-dom";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import Layout from "../../../layout/Layout";
@@ -26,11 +21,11 @@ const DashboardServiceList = () => {
   const [service, setService] = useState([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
-  const [serviceId, setServiceId] = useState("");
+  
   const [refetch, setRefetch] = useState(false);
-  const { isOpen, onOpenChange } = useDisclosure();
 
-  const navigate = useNavigate();
+
+
   const rowsPerPage = 6;
   const pages = Math.ceil(service.length / rowsPerPage);
 

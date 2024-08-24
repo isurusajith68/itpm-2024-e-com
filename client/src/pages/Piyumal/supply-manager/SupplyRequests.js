@@ -11,7 +11,6 @@ import {
 } from "@nextui-org/react";
 import { useEffect, useMemo, useState } from "react";
 import { IoSearch } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
 import "jspdf-autotable";
 import axios from "axios";
 const SupplyRequests = () => {
@@ -22,7 +21,7 @@ const SupplyRequests = () => {
 
   const [refetch, setRefetch] = useState(false);
 
-  const navigate = useNavigate();
+
   const rowsPerPage = 6;
   const pages = Math.ceil(supplier.length / rowsPerPage);
 

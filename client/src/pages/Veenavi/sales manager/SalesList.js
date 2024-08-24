@@ -9,9 +9,9 @@ import {
   TableColumn,
   TableHeader,
   TableRow,
-  Tooltip,
+  
 } from "@nextui-org/react";
-import { FcFeedback } from "react-icons/fc";
+
 import { IoSearch } from "react-icons/io5";
 import jsPDF from "jspdf";
 

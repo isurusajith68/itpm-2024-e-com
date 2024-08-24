@@ -26,7 +26,7 @@ const UserService = () => {
     register,
     handleSubmit,
     control,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm({
     resolver: yupResolver(formSchema),
   });
