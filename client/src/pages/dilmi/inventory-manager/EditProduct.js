@@ -87,6 +87,10 @@ const EditProduct = () => {
       quantity: data.quantity,
       price: data.price,
       description: data.description,
+      processor: data.processor,
+      os: data.os,
+      graphics: data.graphics,
+      storage: data.storage,
       image: imageBase64,
     };
 
@@ -214,7 +218,7 @@ const EditProduct = () => {
                   isInvalid={errors.category}
                 >
                   {productCategory.map((item) => (
-                    <SelectItem key={item.key} value={item.key}>
+                    <SelectItem key={item.value} value={item.value}>
                       {item.value}
                     </SelectItem>
                   ))}

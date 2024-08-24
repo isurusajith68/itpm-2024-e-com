@@ -39,6 +39,7 @@ const ProductPage = () => {
   };
   console.log("feed", feedbacks);
   useEffect(() => {
+    setLoading(true);
     const fetchProduct = async () => {
       try {
         const res = await axios.get(`http://localhost:5000/products/${id}`);
@@ -56,6 +57,7 @@ const ProductPage = () => {
 
   useEffect(() => {
     const fetchFeedback = async () => {
+      setLoading(true);
       try {
         const res = await fetch(`http://localhost:5000/feedback`);
         const data = await res.json();
@@ -82,7 +84,7 @@ const ProductPage = () => {
       <NavBar />
       <div className=" max-w-[1400px] p-4 mx-auto mt-[50px] mb-[150px]">
         <div className="  flex justify-between">
-          <div className="  w-full">
+          <div className="mr-5   w-full">
             {product?.discount !== 0 ? (
               <div className="bg-red-600 rounded-full  w-[100px] h-[100px] flex items-center justify-center text-4xl font-bold">
                 {product?.discount}%
@@ -95,10 +97,10 @@ const ProductPage = () => {
             />
           </div>
           <div className="h-auto border-l-2 border-gray-300"></div>
-          <div className="  w-full mt-[100px]">
+          <div className="  ml-5 w-full mt-[50px]">
             <div className=" p-3">
-              <div className=" font-bold flex justify-center mb-10">
-                <p className=" text-4xl">Alienware Aurora R16 Gaming Desktop</p>
+              <div className=" font-bold flex  mb-10">
+                <p className=" text-4xl">{product?.productName}</p>
               </div>
               <div className=" p-4 ">
                 <div className=" flex mb-3 gap-x-2">
@@ -184,7 +186,7 @@ const ProductPage = () => {
 
                   {/* Row 2 */}
                   <div className="">
-                    <span className=" text-lg ">{product.storage} </span>
+                    <span className=" text-lg ">{product?.storage} </span>
                   </div>
                 </div>
               </div>
