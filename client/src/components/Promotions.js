@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 
 const Promotions = () => {
   const [product, setProduct] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -11,7 +10,6 @@ const Promotions = () => {
         const res = await fetch("http://localhost:5000/products");
         const data = await res.json();
         setProduct(data.products);
-        setLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -26,7 +24,7 @@ const Promotions = () => {
 
         <div className="text-white  gap-10 grid md:grid-cols-4">
           {product.map((p, index) =>
-            p.promotion ? (
+            p.discount > 0 ? (
               <div className="rounded-xl relative" key={index}>
                 <div className="w-full h-full bg-black/30 rounded-xl text-white p-3">
                   <div className="bg-red-600 mb-2 rounded-full w-[80px] h-[80px] flex items-center justify-center text-4xl font-bold">
@@ -37,6 +35,7 @@ const Promotions = () => {
                     <img
                       className="h-full w-full object-fill rounded-xl"
                       src={p.image}
+                      alt={p.productName}
                     />
                   </div>
                   <p className="font-bold text-lg px-2 pt-4">{p.productName}</p>

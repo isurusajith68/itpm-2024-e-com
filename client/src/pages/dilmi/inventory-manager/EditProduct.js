@@ -92,6 +92,7 @@ const EditProduct = () => {
       graphics: data.graphics,
       storage: data.storage,
       image: imageBase64,
+      promotion: data.promotion,
     };
 
     try {
