@@ -92,56 +92,10 @@ const NavBar = () => {
       </div>
 
       {/* Mobile menu */}
-      {/* overlay */}
-      {nav ? (
-        <div className="bg-black/80 z-10 h-screen w-full fixed top-0 left-0"></div>
-      ) : (
-        ""
-      )}
+     
 
       {/* side drawer menu */}
-      <div
-        className={
-          nav
-            ? "bg-white h-screen fixed top-0 left-0 z-10 duration-600 w-[300px]"
-            : "bg-white h-screen fixed top-0 left-[-100%] z-10 duration-300 w-[300px]"
-        }
-      >
-        <AiOutlineClose
-          onClick={() => setNav(!nav)}
-          size={20}
-          className="absolute right-4 top-4 cursor-pointer"
-        />
-
-        <h2 className="text-2xl p-4">
-          Best <span className="font-bold">Eats</span>
-        </h2>
-        <nav>
-          <ul className="flex flex-col p-4 text-gray-800">
-            <li className="flex py-4 text-xl">
-              <TbTruckDelivery size={25} className="mr-4" /> Orders
-            </li>
-            <li className="flex py-4 text-xl">
-              <MdFavorite size={25} className="mr-4" /> Favorite
-            </li>
-            <li className="flex py-4 text-xl">
-              <FaWallet size={25} className="mr-4" /> Walet
-            </li>
-            <li className="flex py-4 text-xl">
-              <MdHelp size={25} className="mr-4" /> Help
-            </li>
-            <li className="flex py-4 text-xl">
-              <AiFillTag size={25} className="mr-4" /> Promotions
-            </li>
-            <li className="flex py-4 text-xl">
-              <BsFillSaveFill size={25} className="mr-4" /> Best Ones
-            </li>
-            <li className="flex py-4 text-xl">
-              <FaUserFriends size={25} className="mr-4" /> Invite Friends
-            </li>
-          </ul>
-        </nav>
-      </div>
+      
     </div>
   );
 };
