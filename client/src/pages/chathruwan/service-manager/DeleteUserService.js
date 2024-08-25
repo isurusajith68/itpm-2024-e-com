@@ -8,13 +8,13 @@ import {
 } from "@nextui-org/react";
 import axios from "axios";
 
-const DeleteProductModel = ({
+const DeleteUserService = ({
   isOpen,
   onOpenChange,
-  productId,
-  setProduct,
-  setProductId,
-
+  serviceId,
+  setService,
+  setServiceId,
+  setRefetch,
 }) => {
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
@@ -22,10 +22,10 @@ const DeleteProductModel = ({
         {(onClose) => (
           <>
             <ModalHeader className="flex flex-col gap-1">
-              <h4>Delete Product</h4>
+              <h4>Delete Your Service</h4>
             </ModalHeader>
             <ModalBody>
-              <p>Are you sure you want to delete this product</p>
+              <p>Are you sure you want to delete this</p>
             </ModalBody>
             <ModalFooter>
               <Button color="danger" variant="light" onPress={onClose}>
@@ -33,17 +33,17 @@ const DeleteProductModel = ({
               </Button>
               <Button
                 color="primary"
-                disabled={!productId}
+                disabled={!serviceId}
                 onClick={async () => {
-                  if (productId) {
+                  if (serviceId) {
                     try {
                       await axios.delete(
-                        `http://localhost:5000/products/${productId}`
+                        `http://localhost:5000/service/${serviceId}`
                       );
-                      setProduct((prevStaff) =>
-                        prevStaff.filter((item) => item._id !== productId)
+                      setService((prevCoupon) =>
+                        prevCoupon.filter((item) => item._id !== serviceId)
                       );
-                      setProductId(null);
+                      setServiceId(null);
                     } catch (error) {
                       console.log(error);
                     }
@@ -60,4 +60,4 @@ const DeleteProductModel = ({
     </Modal>
   );
 };
-export default DeleteProductModel;
+export default DeleteUserService;

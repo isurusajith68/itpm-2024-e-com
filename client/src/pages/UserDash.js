@@ -1,20 +1,17 @@
 import { Link } from "react-router-dom";
 import NavBar from "../components/HomeNavBar";
 import { CgProfile } from "react-icons/cg";
-import { useEffect, useState } from "react";
-import { FaCarTunnel } from "react-icons/fa6";
+import { useEffect } from "react";
+
 import { GrServices } from "react-icons/gr";
 const UserDash = ({ children }) => {
   const pathname = window.location.pathname;
-  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const user = localStorage.getItem("authUser");
     if (!user) {
       window.location.href = "/login";
     }
-
-    setUser(JSON.parse(user));
   }, []);
   return (
     <div className="">
@@ -34,7 +31,7 @@ const UserDash = ({ children }) => {
               <span className="ml-2 text-white">Profile</span>
             </Link>
           </div>
-          
+
           <div>
             <Link
               to="/user/service"

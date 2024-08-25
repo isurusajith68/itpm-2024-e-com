@@ -13,9 +13,8 @@ import {
 import axios from "axios";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { loadStripe } from "@stripe/stripe-js";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
-import { useGlobalReefetch } from "../store/Store";
+import { useGlobalReefetch } from "../../../store/Store";
 import { useNavigate } from "react-router-dom";
 
 const CheckOutModal = ({ isOpen, onOpenChange, total }) => {
@@ -62,7 +61,7 @@ const CheckOutModal = ({ isOpen, onOpenChange, total }) => {
       try {
         const response = await axios.post(
           "http://localhost:5000/orders/create-payment-intent",
-          { totalPrice: data.totalPrice }
+          { totalPrice: data.totalPrice / 300 }
         );
 
         const clientSecret = response.data.clientSecret;

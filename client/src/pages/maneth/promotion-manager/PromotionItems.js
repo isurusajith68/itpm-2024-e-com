@@ -1,4 +1,4 @@
-import { MdDeleteSweep } from "react-icons/md";
+
 import Layout from "../../../layout/Layout";
 import {
   Input,
@@ -15,11 +15,9 @@ import {
 
 import { useEffect, useMemo, useState } from "react";
 import { IoSearch } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
 import { RiDiscountPercentFill } from "react-icons/ri";
 import { RiDiscountPercentLine } from "react-icons/ri";
 import "jspdf-autotable";
-import { IoIosAddCircle } from "react-icons/io";
 import PromotionModal from "./PromotionModal";
 // import DeleteProductModel from "./DeleteProductModel";
 

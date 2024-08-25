@@ -41,19 +41,19 @@ const Login = () => {
         if (res.data.user.role === "admin") {
           navigate("/dashboard/staff");
         } else if (res.data.user.role === "inventory") {
-          navigate("/dashboard/staff");
+          navigate("/dashboard/products");
         } else if (res.data.user.role === "sales") {
-          navigate("/dashboard/staff");
+          navigate("/dashboard/sales");
         } else if (res.data.user.role === "suppliers") {
-          navigate("/dashboard/staff");
+          navigate("/dashboard/supply");
         } else if (res.data.user.role === "promotion") {
-          navigate("/dashboard/staff");
+          navigate("/dashboard/promotion");
         } else if (res.data.user.role === "feedback") {
-          navigate("/dashboard/staff");
+          navigate("/dashboard/feedback");
         } else if (res.data.user.role === "service") {
-          navigate("/dashboard/staff");
+          navigate("/dashboard/service");
         } else if (res.data.user.role === "delivery") {
-          navigate("/dashboard/staff");
+          navigate("/dashboard/delivery");
         } else {
           navigate("/");
         }

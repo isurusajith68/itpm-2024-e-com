@@ -1,4 +1,4 @@
-import { Button, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
+import { Button, Input, Select, SelectItem } from "@nextui-org/react";
 import Layout from "../../../layout/Layout";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -34,7 +34,7 @@ const EditProduct = () => {
   const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
-
+  console.log(product);
   const {
     register,
     handleSubmit,
@@ -87,7 +87,12 @@ const EditProduct = () => {
       quantity: data.quantity,
       price: data.price,
       description: data.description,
+      processor: data.processor,
+      os: data.os,
+      graphics: data.graphics,
+      storage: data.storage,
       image: imageBase64,
+      promotion: data.promotion,
     };
 
     try {
@@ -214,7 +219,7 @@ const EditProduct = () => {
                   isInvalid={errors.category}
                 >
                   {productCategory.map((item) => (
-                    <SelectItem key={item.key} value={item.key}>
+                    <SelectItem key={item.value} value={item.value}>
                       {item.value}
                     </SelectItem>
                   ))}

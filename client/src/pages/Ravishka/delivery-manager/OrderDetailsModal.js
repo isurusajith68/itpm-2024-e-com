@@ -6,7 +6,6 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@nextui-org/react";
-import axios from "axios";
 
 const OrderDetailsModal = ({ isOpen, onOpenChange, clickOrder }) => {
   return (

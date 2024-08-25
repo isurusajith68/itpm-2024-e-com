@@ -39,6 +39,7 @@ const ProductPage = () => {
   };
   console.log("feed", feedbacks);
   useEffect(() => {
+    setLoading(true);
     const fetchProduct = async () => {
       try {
         const res = await axios.get(`http://localhost:5000/products/${id}`);
@@ -56,6 +57,7 @@ const ProductPage = () => {
 
   useEffect(() => {
     const fetchFeedback = async () => {
+      setLoading(true);
       try {
         const res = await fetch(`http://localhost:5000/feedback`);
         const data = await res.json();
@@ -82,22 +84,23 @@ const ProductPage = () => {
       <NavBar />
       <div className=" max-w-[1400px] p-4 mx-auto mt-[50px] mb-[150px]">
         <div className="  flex justify-between">
-          <div className="  w-full">
-            {product.discount !== 0 ? (
+          <div className="mr-5   w-full">
+            {product?.discount !== 0 ? (
               <div className="bg-red-600 rounded-full  w-[100px] h-[100px] flex items-center justify-center text-4xl font-bold">
-                {product.discount}%
+                {product?.discount}%
               </div>
             ) : null}
             <img
               className=" w-full object-cover rounded-xl"
-              src={product.image}
+              src={product?.image}
+              alt="product"
             />
           </div>
           <div className="h-auto border-l-2 border-gray-300"></div>
-          <div className="  w-full mt-[100px]">
+          <div className="  ml-5 w-full mt-[50px]">
             <div className=" p-3">
-              <div className=" font-bold flex justify-center mb-10">
-                <p className=" text-4xl">Alienware Aurora R16 Gaming Desktop</p>
+              <div className=" font-bold flex  mb-10">
+                <p className=" text-4xl">{product?.productName}</p>
               </div>
               <div className=" p-4 ">
                 <div className=" flex mb-3 gap-x-2">
@@ -114,10 +117,7 @@ const ProductPage = () => {
 
                   {/* Row 2 */}
                   <div className="">
-                    <span className=" text-lg ">
-                      intel® Core™ i9 14900KF (68 MB cache, 24 cores, up to 6.0
-                      GHz P-Core Thermal Velocity)
-                    </span>
+                    <span className=" text-lg ">{product?.processor}</span>
                   </div>
                 </div>
                 <div className=" flex gap-x-2  mb-3">
@@ -133,9 +133,7 @@ const ProductPage = () => {
 
                   {/* Row 2 */}
                   <div className="">
-                    <span className=" text-lg ">
-                      Windows 11 Home, English, French, Spanish
-                    </span>
+                    <span className=" text-lg ">{product?.os}</span>
                   </div>
                 </div>
 
@@ -152,9 +150,7 @@ const ProductPage = () => {
 
                   {/* Row 2 */}
                   <div className="">
-                    <span className=" text-lg ">
-                      NVIDIA® GeForce RTX™ 4090, 24 GB GDDR6X
-                    </span>
+                    <span className=" text-lg ">{product?.graphics}</span>
                   </div>
                 </div>
 
@@ -190,35 +186,15 @@ const ProductPage = () => {
 
                   {/* Row 2 */}
                   <div className="">
-                    <span className=" text-lg ">2 TB, M.2, PCIe NVMe, SSD</span>
-                  </div>
-                </div>
-
-                <div className=" flex gap-x-2  mb-3">
-                  {/* Row 1 */}
-                  <div className="mr-2">
-                    <img
-                      width="22"
-                      height="22"
-                      src="https://img.icons8.com/ios/50/paint-palette.png"
-                      alt="paint-palette"
-                    />
-                  </div>
-
-                  {/* Row 2 */}
-                  <div className="">
-                    <span className=" text-lg ">
-                      1000W Platinum Rated PSU, 240mm Liquid-Cooled CPU & Clear
-                      Side Panel
-                    </span>
+                    <span className=" text-lg ">{product?.storage} </span>
                   </div>
                 </div>
               </div>
-              {product.discount > 0 ? (
+              {product?.discount > 0 ? (
                 <div>
                   <span className="line-through">
                     LKR.
-                    {product.price.toLocaleString("en-US", {
+                    {product?.price.toLocaleString("en-US", {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
                     })}
@@ -226,8 +202,8 @@ const ProductPage = () => {
                   <span className="text-orange-600 text-2xl">
                     LKR.
                     {(
-                      product.price -
-                      (product.price * product.discount) / 100
+                      product?.price -
+                      (product?.price * product?.discount) / 100
                     ).toLocaleString("en-US", {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
@@ -238,7 +214,7 @@ const ProductPage = () => {
                 <div>
                   <span className="text-2xl font-bold">
                     LKR.
-                    {product.price.toLocaleString("en-US", {
+                    {product?.price.toLocaleString("en-US", {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
                     })}
@@ -247,7 +223,7 @@ const ProductPage = () => {
               )}
               <button
                 onClick={
-                  product.quantity > 0
+                  product?.quantity > 0
                     ? () => handleAddClick(product)
                     : () => alert("Out of Stock")
                 }
@@ -259,6 +235,7 @@ const ProductPage = () => {
           </div>
         </div>
         <hr className=" border-2-2 mt-3 mb-3" />
+        <h1 className=" text-2xl font-semibold">Feedback</h1>
         {feedbacks?.map((feedback, index) => {
           const productFeedbacks = feedback.order.orderItems.filter(
             (item) => item._id === id
@@ -269,8 +246,11 @@ const ProductPage = () => {
           return (
             <div key={index} className="grid grid-cols-3  gap-4">
               {productFeedbacks.map((productFeedback, subIndex) => (
-                <div key={subIndex} className="p-4 flex gap-2 ">
-                  <div className="w-[120px] h-[80px]">
+                <div
+                  key={subIndex}
+                  className=" flex gap-2 items-center justify-center border-b"
+                >
+                  <div className="w-[60px] h-[50px]">
                     <img
                       src={ProfilePic}
                       alt="Profile"
@@ -278,7 +258,7 @@ const ProductPage = () => {
                     />
                   </div>
 
-                  <div className="w-full  rounded-lg p-4 bg-slate-400 ">
+                  <div className="w-full  rounded-lg p-4 bg-slate-200 mt-2">
                     <p className=" text-lg font-semibold">
                       {feedback.user.username}
                     </p>

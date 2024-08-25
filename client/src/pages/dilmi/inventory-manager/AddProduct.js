@@ -1,4 +1,4 @@
-import { Button, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
+import { Button, Input, Select, SelectItem,  } from "@nextui-org/react";
 import Layout from "../../../layout/Layout";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";

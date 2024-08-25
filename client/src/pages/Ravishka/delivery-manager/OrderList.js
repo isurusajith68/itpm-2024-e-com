@@ -12,12 +12,11 @@ import {
   Tooltip,
   useDisclosure,
 } from "@nextui-org/react";
-import { FcFeedback } from "react-icons/fc";
 import { IoSearch } from "react-icons/io5";
 import jsPDF from "jspdf";
 import axios from "axios";
 import { FaRegEye } from "react-icons/fa";
-import { MdAddBusiness, MdDeleteSweep } from "react-icons/md";
+import { MdDeleteSweep } from "react-icons/md";
 import OrderDetailsModal from "./OrderDetailsModal";
 import DeleteOrder from "./DeleteOrder";
 

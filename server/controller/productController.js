@@ -61,6 +61,7 @@ export const updateProduct = async (req, res) => {
     existingProduct.graphics = product.graphics || existingProduct.graphics;
     existingProduct.storage = product.storage || existingProduct.storage;
     existingProduct.image = product.image || existingProduct.image;
+
     if (existingProduct.promotion) {
       existingProduct.promotion = false;
     } else {

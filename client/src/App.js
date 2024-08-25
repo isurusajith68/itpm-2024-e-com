@@ -29,10 +29,10 @@ import CouponList from "./pages/maneth/promotion-manager/CouponList";
 import EditCoupon from "./pages/maneth/promotion-manager/EditCoupon";
 import ProductPage from "./pages/ProductPage";
 import SupplyRequests from "./pages/Piyumal/supply-manager/SupplyRequests";
-import Cart from "./pages/Cart";
+import Cart from "./pages/Veenavi/sales manager/Cart";
 import UserDash from "./pages/UserDash";
-import UserOrders from "./pages/UserOrders";
-import UserService from "./pages/UserService";
+import UserOrders from "./pages/Veenavi/sales manager/UserOrders";
+import UserService from "./pages/chathruwan/service-manager/UserService";
 import Userprofile from "./pages/Userprofile";
 import SalesManager from "./pages/Veenavi/sales manager/SalesManager";
 import SalesList from "./pages/Veenavi/sales manager/SalesList";
@@ -42,6 +42,7 @@ import FeedbackManager from "./pages/Saranga/feedback-manager/Feedback";
 import UserFeedBacks from "./pages/Saranga/feedback-manager/UserFeedBacks";
 import DashboardService from "./pages/chathruwan/service-manager/DashboardService";
 import DashboardServiceList from "./pages/chathruwan/service-manager/DashboardServiceList";
+import UserServicesList from "./pages/chathruwan/service-manager/UserServicesList";
 
 function App() {
   return (
@@ -111,7 +112,10 @@ function App() {
 
         {/* Service manager */}
         <Route path="/dashboard/service" element={<DashboardService />} />
-        <Route path="/dashboard/service/list" element={<DashboardServiceList />} />
+        <Route
+          path="/dashboard/service/list"
+          element={<DashboardServiceList />}
+        />
 
         <Route path="/product/:id" element={<ProductPage />} />
         <Route path="/cart" element={<Cart />} />
@@ -119,6 +123,10 @@ function App() {
         <Route path="/user/profile" element={<Userprofile />} />
         <Route path="/user/orders" element={<UserOrders />} />
         <Route path="/user/service" element={<UserService />} />
+        <Route
+          path="/user/service/previous-claims"
+          element={<UserServicesList />}
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
