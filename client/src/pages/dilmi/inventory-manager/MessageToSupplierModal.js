@@ -44,7 +44,7 @@ const MessageToSupplier = ({ isOpen, onOpenChange, clickedProductName }) => {
                     try {
                       await axios.post("http://localhost:5000/message", {
                         message,
-                        to: "supplier",
+                        to: "suppliers",
                       });
                     } catch (error) {
                       console.log(error);
