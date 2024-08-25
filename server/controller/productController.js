@@ -2,7 +2,11 @@ import Product from "../model/Product.js";
 
 export const getProducts = async (req, res) => {
   try {
-    const products = await Product.find();
+    const products = req.query.search
+      ? await Product.find({
+          productName: { $regex: req.query.search, $options: "i" },
+        })
+      : await Product.find();
 
     res.status(200).json({ products });
   } catch (error) {

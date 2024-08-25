@@ -1,4 +1,3 @@
-
 import Layout from "../../../layout/Layout";
 import {
   Input,
@@ -72,8 +71,6 @@ const PromotionItems = () => {
     );
   }
 
-  
-
   return (
     <Layout>
       <div className="w-full items-center justify-center flex flex-col">
@@ -138,7 +135,7 @@ const PromotionItems = () => {
 
                     <TableCell>{item.price}</TableCell>
                     <TableCell className="flex items-center h-20 ml-5">
-                      {item.promotion ? (
+                      {item.discount > 0 ? (
                         <Tooltip color="danger" content=" promotion ">
                           <span className="text-lg text-danger cursor-pointer active:opacity-50">
                             <RiDiscountPercentFill
