@@ -270,17 +270,21 @@ const ProductPage = () => {
             <div key={index} className="grid grid-cols-3  gap-4">
               {productFeedbacks.map((productFeedback, subIndex) => (
                 <div key={subIndex} className="p-4 flex gap-2 ">
-                  <div className="w-[120px] h-[100px]">
+                  <div className="w-[120px] h-[80px]">
                     <img
                       src={ProfilePic}
                       alt="Profile"
                       className=" object-cover rounded-full"
                     />
                   </div>
-                  
+
                   <div className="w-full  rounded-lg p-4 bg-slate-400 ">
-                    <p className=" text-lg font-semibold">{feedback.user.username}</p>
-                    <p className=" first-letter:capitalize">{feedback.feedback}</p>
+                    <p className=" text-lg font-semibold">
+                      {feedback.user.username}
+                    </p>
+                    <p className=" first-letter:capitalize">
+                      {feedback.feedback}
+                    </p>
                     <ReactStars
                       size={30}
                       edit={false}
