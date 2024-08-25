@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 
 import { FaUserCircle } from "react-icons/fa";
@@ -21,7 +21,11 @@ const NavBar = () => {
   const [user, setUser] = useState(null);
   const [cart, setCart] = useState(null);
   const { globalRefetch, setGlobalRefetch } = useGlobalReefetch();
-
+  const [search, setSearch] = useState("");
+  const [searchFocus, setSearchFocus] = useState(false);
+  const [debouncedSearch, setDebouncedSearch] = useState(search);
+  const [searchProducts, setSearchProducts] = useState([]);
+  const searchRef = useRef(null);
   const handleLogout = () => {
     localStorage.removeItem("authUser");
     window.location.href = "/login";
@@ -39,6 +43,62 @@ const NavBar = () => {
     setCart(JSON.parse(cart));
   }, [globalRefetch]);
 
+
+  useEffect(() => {
+    if (search.length > 1) {
+      const timeoutId = setTimeout(() => {
+        setDebouncedSearch(search);
+      }, 200);
+
+      return () => {
+        clearTimeout(timeoutId);
+      };
+    } else {
+      setDebouncedSearch(""); 
+      setSearchProducts([]); 
+    }
+  }, [search]);
+
+  
+  useEffect(() => {
+    const controller = new AbortController();
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch(
+          `http://localhost:5000/products?search=${debouncedSearch}`,
+          { signal: controller.signal }
+        );
+        const data = await res.json();
+        setSearchProducts(data.products);
+      } catch (error) {
+        if (error.name !== "AbortError") {
+          console.error("Failed to fetch products:", error);
+        }
+      }
+    };
+
+    if (debouncedSearch) {
+      fetchProducts();
+    }
+
+    return () => {
+      controller.abort();
+    };
+  }, [debouncedSearch]);
+
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        setSearchFocus(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className="max-w-[1640px] mx-auto flex justify-between items-center p-4">
       {/* left side */}
@@ -53,14 +113,46 @@ const NavBar = () => {
         </Link>
       </div>
       {/* search bar */}
-      <div className="bg-gray-200 rounded-full items-center flex px-2 w-[200px] sm:w-[400px] lg:w-[500px]">
-        <AiOutlineSearch size={30} />
-        <input
-          type="text"
-          placeholder="Search Foods"
-          className="bg-transparent p-2 w-full
-            focus:outline-none "
-        ></input>
+      <div className="flex flex-col items-center" ref={searchRef}>
+        <div className="bg-gray-200 rounded-full items-center flex px-2 w-[200px] sm:w-[400px] lg:w-[500px]">
+          <AiOutlineSearch size={30} />
+          <input
+            type="text"
+            placeholder="Search Foods"
+            className="bg-transparent p-2 w-full focus:outline-none"
+            onFocus={() => setSearchFocus(true)}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
+        <div className="absolute w-[480px] z-20 mt-10">
+          {debouncedSearch.length > 1 && searchFocus && (
+            <div className="bg-white shadow-lg">
+              {searchProducts?.length > 0 ? (
+                searchProducts.map((product) => (
+                  <Link
+                    to={`/product/${product._id}`}
+                    key={product._id}
+                    className="flex items-center gap-2 p-2 hover:bg-gray-200"
+                    onClick={() => {
+                      setTimeout(() => {
+                        setSearchFocus(false);
+                      }, 100);
+                    }}
+                  >
+                    <img
+                      src={product.image}
+                      alt={product.productName}
+                      className="h-10 w-10 object-contain"
+                    />
+                    <p>{product.productName}</p>
+                  </Link>
+                ))
+              ) : (
+                <p className="p-2">No products found</p>
+              )}
+            </div>
+          )}
+        </div>
       </div>
       {/* cart button */}
 
