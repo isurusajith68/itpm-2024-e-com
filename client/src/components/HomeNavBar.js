@@ -118,7 +118,7 @@ const NavBar = () => {
           <AiOutlineSearch size={30} />
           <input
             type="text"
-            placeholder="Search Foods"
+            placeholder="Search Products"
             className="bg-transparent p-2 w-full focus:outline-none"
             onFocus={() => setSearchFocus(true)}
             onChange={(e) => setSearch(e.target.value)}
