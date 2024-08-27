@@ -237,15 +237,15 @@ const ProductPage = () => {
         <hr className=" border-2-2 mt-3 mb-3" />
         <h1 className=" text-2xl font-semibold">Feedback</h1>
         {feedbacks?.map((feedback, index) => {
-          const productFeedbacks = feedback.order.orderItems.filter(
+          const productFeedbacks = feedback?.order?.orderItems.filter(
             (item) => item._id === id
           );
 
-          if (productFeedbacks.length === 0) return null;
+          if (productFeedbacks?.length === 0) return null;
 
           return (
             <div key={index} className="grid grid-cols-3  gap-4">
-              {productFeedbacks.map((productFeedback, subIndex) => (
+              {productFeedbacks?.map((productFeedback, subIndex) => (
                 <div
                   key={subIndex}
                   className=" flex gap-2 items-center justify-center border-b"
