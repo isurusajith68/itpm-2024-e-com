@@ -201,17 +201,17 @@ const DashboardServiceList = () => {
                       <select
                         className={
                           item.status === "Pending"
-                            ? "bg-yellow-500 p-1 rounded-md text-white ring-0"
+                            ? " bg-red-500 p-1 rounded-md text-white ring-0"
                             : item.status === "Confirm"
                             ? "bg-green-500 p-1 rounded-md text-white ring-0"
-                            : "bg-red-500 p-1 rounded-md text-white ring-0"
+                            : "bg-yellow-500 p-1 rounded-md text-white ring-0"
                         }
                         value={item.status}
                         onChange={(e) => handelChange(e, item._id)}
                       >
                         <option value="Pending">Pending</option>
                         <option value="Confirm">Confirm</option>
-                        <option value="Rejected">Rejected</option>
+                        <option value="Progress">Progress</option>
                       </select>
                     </TableCell>
                     {/* <TableCell className="flex gap-6">

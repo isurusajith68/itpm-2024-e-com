@@ -43,6 +43,7 @@ import UserFeedBacks from "./pages/Saranga/feedback-manager/UserFeedBacks";
 import DashboardService from "./pages/chathruwan/service-manager/DashboardService";
 import DashboardServiceList from "./pages/chathruwan/service-manager/DashboardServiceList";
 import UserServicesList from "./pages/chathruwan/service-manager/UserServicesList";
+import RequestFuel from "./pages/Ravishka/delivery-manager/RequestFuel";
 
 function App() {
   return (
@@ -105,6 +106,7 @@ function App() {
         {/*delivery manager*/}
         <Route path="/dashboard/delivery" element={<DeliveryManager />} />
         <Route path="/dashboard/order/list" element={<OrderList />} />
+        <Route path="/dashboard/order/fuel-rqst" element={<RequestFuel />} />
 
         {/*Feedback Manager page*/}
         <Route path="/dashboard/feedback" element={<FeedbackManager />} />

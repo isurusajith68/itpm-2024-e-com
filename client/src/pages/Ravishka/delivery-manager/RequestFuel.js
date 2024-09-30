@@ -14,44 +14,45 @@ import {
 } from "@nextui-org/react";
 import { IoSearch } from "react-icons/io5";
 import jsPDF from "jspdf";
-import ReactStars from "react-rating-stars-component";
+import axios from "axios";
+import { FaRegEye } from "react-icons/fa";
 import { MdDeleteSweep } from "react-icons/md";
-import DeleteFeedback from "./DeleteFeedback";
+import OrderDetailsModal from "./OrderDetailsModal";
+import DeleteOrder from "./DeleteOrder";
 
-const UserFeedBacks = () => {
-  const [feedbacks, setFeedbacks] = useState([]);
+const RequestFuel = () => {
+  const [fuelRqsts, setFuelRqsts] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
-  const [clickFeedbackId, setClickFeedbackId] = useState(null);
+  const [refetch, setRefetch] = useState(false);
 
   const rowsPerPage = 3;
-  const pages = Math.ceil(feedbacks.length / rowsPerPage);
+  const pages = Math.ceil(fuelRqsts.length / rowsPerPage);
 
-  const { isOpen: isOpenDelete, onOpenChange: onOpenChangeDelete } =
-    useDisclosure();
-
-  const filterSales = useMemo(() => {
-    return feedbacks.filter((item) =>
-      item.order?.orderItems[0].name
-        .toLowerCase()
-        .includes(search.toLowerCase())
+  const filterRqst = useMemo(() => {
+    return fuelRqsts?.filter((item) =>
+      item.orderItems[0].name.toLowerCase().includes(search.toLowerCase())
     );
-  }, [search, feedbacks]);
+  }, [search, fuelRqsts]);
 
   const items = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
     const end = start + rowsPerPage;
-    return filterSales?.slice(start, end);
-  }, [page, filterSales]);
+    return filterRqst?.slice(start, end);
+  }, [page, filterRqst]);
 
   useEffect(() => {
     const fetchSales = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/feedback`);
+        const res = await fetch(`http://localhost:5000/fuel-rqst`);
         const data = await res.json();
         // const orderSuccess = data.filter((i) => i.orderStatus === "Success");
-        setFeedbacks(data);
+        if (Array.isArray(data)) {
+          setFuelRqsts(data);
+        } else {
+          setFuelRqsts([]); // Set an empty array if data is not an array
+        }
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -59,58 +60,17 @@ const UserFeedBacks = () => {
     };
 
     fetchSales();
-  }, []);
-  console.log("Feed backs", feedbacks);
-  const generatePDF = () => {
-    const doc = new jsPDF();
+  }, [refetch]);
 
-    doc.text("Feedback Report", 14, 10);
 
-    const tableColumn = [
-      "Id",
-      "Username",
-      "Order Item",
-      "Shipping City",
-      "Payment Method",
-      "Total Price",
-      "Rating",
-      "Feedback",
-    ];
-
-    const tableRows = [];
-
-    // Filter feedbacks that have actual feedback content
-    const feedbackWithComments = feedbacks.filter((item) => item.feedback);
-
-    feedbackWithComments.forEach((item, index) => {
-      const orderItems =
-        item?.order?.orderItems?.map((p) => p.name).join(", ") ||
-        "No order items available";
-
-      const rowData = [
-        index + 1,
-        item?.user?.username || "No username", // Username
-        orderItems, // Order Item(s)
-        item?.order?.shippingAddress?.city || "No shipping city", // Shipping City
-        item?.order?.paymentMethod || "No payment method", // Payment Method
-        `LKR ${(item?.order?.totalPrice || 0).toLocaleString("en-US", {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })}`, // Total Price
-        item?.rating || "No rating", // Rating
-        item?.feedback || "No feedback", // Feedback
-      ];
-
-      tableRows.push(rowData);
+  const handelChange = async (e, id) => {
+    const res = await axios.put(`http://localhost:5000/orders/${id}`, {
+      orderStatus: e.target.value,
     });
 
-    doc.autoTable({
-      head: [tableColumn],
-      body: tableRows,
-      startY: 30,
-    });
-
-    doc.save("feedbacks-report.pdf");
+    if (res.status === 200) {
+      setRefetch(!refetch);
+    }
   };
 
   if (loading) {
@@ -128,25 +88,23 @@ const UserFeedBacks = () => {
       {" "}
       <div className="w-full items-center justify-center flex flex-col">
         <div className="flex justify-between p-2">
-          <h1 className="text-center mt-2 font-semibold text-lg">
-            User Feedbacks
-          </h1>
+          <h1 className="text-center mt-2 font-semibold text-lg">Order List</h1>
         </div>
         <div className="flex w-[1000px] justify-between">
           <div>
             <Input
               isClearable
               radius="full"
-              placeholder="Search feedbacks..."
+              placeholder="Search orders..."
               startContent={<IoSearch />}
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
           <button
             className="bg-blue-500 text-white px-4 text-sm rounded-lg"
-            onClick={generatePDF}
+            // onClick={generatePDF}
           >
-            Download PDF
+            Apply Fuel
           </button>
         </div>
         <div className="min-w-[1000px] mt-2">
@@ -168,10 +126,12 @@ const UserFeedBacks = () => {
           >
             <TableHeader>
               <TableColumn>Id</TableColumn>
-              <TableColumn>Order</TableColumn>
-              <TableColumn>Username</TableColumn>
-              <TableColumn>Rating</TableColumn>
-              <TableColumn>Feedback</TableColumn>
+              <TableColumn>Order Item</TableColumn>
+              <TableColumn>User name</TableColumn>
+              <TableColumn>Shipping Address</TableColumn>
+              <TableColumn>Payment Method</TableColumn>
+              <TableColumn>Total Price</TableColumn>
+              <TableColumn>Order Status</TableColumn>
               <TableColumn>Action</TableColumn>
             </TableHeader>
             <TableBody>
@@ -181,10 +141,9 @@ const UserFeedBacks = () => {
                   <TableRow key={item._id} className="border-b-1">
                     <TableCell>{index + 1}</TableCell>
                     <TableCell>
-                      {item?.order?.orderItems &&
-                      item?.order?.orderItems.length > 0 ? (
-                        item?.order?.orderItems.map((p) => (
-                          <div className="flex gap-2" key={p._id}>
+                      {item.orderItems.map((p) => {
+                        return (
+                          <div className="flex gap-2">
                             <img
                               src={p.image}
                               alt={p.name}
@@ -192,29 +151,57 @@ const UserFeedBacks = () => {
                             />
                             <span>{p.name}</span>
                           </div>
-                        ))
-                      ) : (
-                        <span>No order items available</span>
-                      )}
+                        );
+                      })}
                     </TableCell>
-
                     <TableCell>{item?.user?.username}</TableCell>
+                    <TableCell>{item.shippingAddress.address}</TableCell>
+                    <TableCell>{item.paymentMethod}</TableCell>
                     <TableCell>
-                      <ReactStars size={30} edit={false} value={item.rating} />
+                      LKR:{" "}
+                      {item.totalPrice.toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
                     </TableCell>
-                    <TableCell>{item.feedback}</TableCell>
                     <TableCell>
-                      {" "}
-                      <Tooltip color="danger" content="Delete feedback">
+                      <select
+                        className={
+                          item.orderStatus === "Pending"
+                            ? "bg-yellow-500 p-1 rounded-md text-white ring-0"
+                            : item.orderStatus === "Delivered"
+                            ? "bg-green-500 p-1 rounded-md text-white ring-0"
+                            : "bg-red-500 p-1 rounded-md text-white ring-0"
+                        }
+                        value={item.orderStatus}
+                        onChange={(e) => handelChange(e, item._id)}
+                      >
+                        <option value="Pending">Pending</option>
+                        <option value="Delivered">Delivered</option>
+                        <option value="Rejected">Rejected</option>
+                      </select>
+                    </TableCell>
+                    <TableCell className="flex gap-6 justify-center items-center h-16">
+                      <Tooltip color="danger" content="Delete supplier">
                         <span className="text-lg text-danger cursor-pointer active:opacity-50">
                           <MdDeleteSweep
                             onClick={() => {
-                              setClickFeedbackId(item._id);
+                              setClickOrderId(item._id);
                               onOpenChangeDelete();
                             }}
                           />
                         </span>
                       </Tooltip>{" "}
+                      <Tooltip color="secondary" content="More details">
+                        <span className="text-lg text-blue-700 cursor-pointer active:opacity-50">
+                          <FaRegEye
+                            onClick={() => {
+                              setClickOrder(item);
+                              onOpenChangeMoreDetails();
+                            }}
+                          />
+                        </span>
+                      </Tooltip>
                     </TableCell>
                   </TableRow>
                 )
@@ -224,14 +211,7 @@ const UserFeedBacks = () => {
           </Table>
         </div>
       </div>
-      <DeleteFeedback
-        isOpen={isOpenDelete}
-        onOpenChange={onOpenChangeDelete}
-        feedbackId={clickFeedbackId}
-        setFeedbacks={setFeedbacks}
-        setClickFeedbackId={setClickFeedbackId}
-      />
     </Layout>
   );
 };
-export default UserFeedBacks;
+export default RequestFuel;

@@ -51,7 +51,7 @@ const DeleteSupplierModel = ({
                   onClose();
                 }}
               >
-                Action
+                Delete
               </Button>
             </ModalFooter>
           </>
