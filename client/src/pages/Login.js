@@ -38,25 +38,26 @@ const Login = () => {
         localStorage.setItem("authUser", JSON.stringify(res.data.user));
         console.log(res.data.user.role);
 
-        if (res.data.user.role === "admin") {
-          navigate("/dashboard/staff");
-        } else if (res.data.user.role === "inventory") {
-          navigate("/dashboard/products");
-        } else if (res.data.user.role === "sales") {
-          navigate("/dashboard/sales");
-        } else if (res.data.user.role === "suppliers") {
-          navigate("/dashboard/supply");
-        } else if (res.data.user.role === "promotion") {
-          navigate("/dashboard/promotion");
-        } else if (res.data.user.role === "feedback") {
-          navigate("/dashboard/feedback");
-        } else if (res.data.user.role === "service") {
-          navigate("/dashboard/service");
-        } else if (res.data.user.role === "delivery") {
-          navigate("/dashboard/delivery");
-        } else {
-          navigate("/");
-        }
+        // if (res.data.user.role === "admin") {
+        //   navigate("/dashboard/staff");
+        // } else if (res.data.user.role === "inventory") {
+        //   navigate("/dashboard/products");
+        // } else if (res.data.user.role === "sales") {
+        //   navigate("/dashboard/sales");
+        // } else if (res.data.user.role === "suppliers") {
+        //   navigate("/dashboard/supply");
+        // } else if (res.data.user.role === "promotion") {
+        //   navigate("/dashboard/promotion");
+        // } else if (res.data.user.role === "feedback") {
+        //   navigate("/dashboard/feedback");
+        // } else if (res.data.user.role === "service") {
+        //   navigate("/dashboard/service");
+        // } else if (res.data.user.role === "delivery") {
+        //   navigate("/dashboard/delivery");
+        // } else {
+        //   navigate("/");
+        // }
+        navigate("/dashboard/products");
       }
     } catch (error) {
       if (error?.response) {

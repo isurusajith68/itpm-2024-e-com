@@ -16,6 +16,23 @@ const DeliveryManager = () => {
             </span>
           </div>
         </Link>
+        <Link
+          className="bg-blue-700 max-w-[300px] flex-1 h-72 rounded-lg shadow-lg cursor-pointer hover:bg-blue-800 transition duration-300 border-2 border-blue-800"
+          to="/dashboard/order/fuel-rqst"
+        >
+          <div className="flex  justify-center items-center h-full flex-col gap-6">
+          <img
+          width="100"
+          height="100"
+          src="https://img.icons8.com/arcade/64/petrol.png"
+          alt="petrol"
+        />
+            <span className="text-xl font-semibold text-white">
+              Fuel Request
+            </span>
+          </div>
+        </Link>
+        
         {/* <Link
           to="/dashboard/salary/list"
           className="bg-blue-700 max-w-[300px] flex-1 h-72 rounded-lg shadow-lg cursor-pointer hover:bg-blue-800 transition duration-300 border-2 border-blue-800"

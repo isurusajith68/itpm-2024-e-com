@@ -15,6 +15,7 @@ import supplyRequestRouter from "./router/supplyRequestRouter.js";
 import orderRouter from "./router/orderRouter.js";
 import feedbackRouter from "./router/feedbackRouter.js";
 import serviceRouter from "./router/service.js";
+import fuelRqstRouter from "./router/FuelReqstRouter.js"
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use("/supply-request", supplyRequestRouter);
 app.use("/orders", orderRouter);
 app.use("/feedback", feedbackRouter);
 app.use("/service", serviceRouter);
+app.use("/fuel-rqst", fuelRqstRouter);
 
 dotenv.config();
 

@@ -31,7 +31,10 @@ const SupplierList = () => {
   const [refetch, setRefetch] = useState(false);
   const [supplierValue, setSupplierValue] = useState(null);
 
-  const { isOpen, onOpenChange } = useDisclosure();
+  const { isOpen: isDeleteOpen, onOpenChange: onDeleteOpenChange } =
+    useDisclosure();
+  const { isOpen: isRequestOpen, onOpenChange: onRequestOpenChange } =
+    useDisclosure();
 
   const navigate = useNavigate();
   const rowsPerPage = 6;
@@ -190,7 +193,7 @@ const SupplierList = () => {
                         <MdDeleteSweep
                           onClick={() => {
                             setSupplierId(item._id);
-                            onOpenChange();
+                            onDeleteOpenChange();
                           }}
                         />
                       </span>
@@ -200,7 +203,7 @@ const SupplierList = () => {
                         <MdAddBusiness
                           onClick={() => {
                             setSupplierValue(item);
-                            onOpenChange();
+                            onRequestOpenChange();
                           }}
                         />
                       </span>
@@ -213,16 +216,16 @@ const SupplierList = () => {
         </div>
       </div>
       <DeleteSupplierModel
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
+        isOpen={isDeleteOpen}
+        onOpenChange={onDeleteOpenChange}
         supplierId={supplierId}
         setSupplierId={setSupplierId}
         setRefetch={setRefetch}
         setSupplier={setSupplier}
       />
       <RequestToSupplierModel
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
+        isOpen={isRequestOpen}
+        onOpenChange={onRequestOpenChange}
         supplierId={supplierId}
         setSupplierId={setSupplierId}
         setRefetch={setRefetch}
