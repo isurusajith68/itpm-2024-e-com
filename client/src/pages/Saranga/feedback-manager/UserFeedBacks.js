@@ -33,9 +33,7 @@ const UserFeedBacks = () => {
 
   const filterSales = useMemo(() => {
     return feedbacks.filter((item) =>
-      item.order?.orderItems[0].name
-        .toLowerCase()
-        .includes(search.toLowerCase())
+      item?.order?.orderItems[0].name.toLowerCase().includes(search.toLowerCase())
     );
   }, [search, feedbacks]);
 
@@ -181,10 +179,9 @@ const UserFeedBacks = () => {
                   <TableRow key={item._id} className="border-b-1">
                     <TableCell>{index + 1}</TableCell>
                     <TableCell>
-                      {item?.order?.orderItems &&
-                      item?.order?.orderItems.length > 0 ? (
-                        item?.order?.orderItems.map((p) => (
-                          <div className="flex gap-2" key={p._id}>
+                      {item?.order?.orderItems?.map((p) => {
+                        return (
+                          <div className="flex gap-2">
                             <img
                               src={p.image}
                               alt={p.name}
@@ -200,9 +197,9 @@ const UserFeedBacks = () => {
 
                     <TableCell>{item?.user?.username}</TableCell>
                     <TableCell>
-                      <ReactStars size={30} edit={false} value={item.rating} />
+                      <ReactStars size={30} edit={false} value={item?.rating} />
                     </TableCell>
-                    <TableCell>{item.feedback}</TableCell>
+                    <TableCell>{item?.feedback}</TableCell>
                     <TableCell>
                       {" "}
                       <Tooltip color="danger" content="Delete feedback">
