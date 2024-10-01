@@ -7,7 +7,7 @@ const requestFuleSchema = new mongoose.Schema({
   },
   cost: {
     type: String,
-    required: [true, "Product category is required"],
+    required: [true, ""],
   },
   date: {
     type: Date,
