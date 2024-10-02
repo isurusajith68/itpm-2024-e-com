@@ -181,9 +181,10 @@ const UserFeedBacks = () => {
                   <TableRow key={item._id} className="border-b-1">
                     <TableCell>{index + 1}</TableCell>
                     <TableCell>
-                      {item?.order?.orderItems?.length ? (
-                        item.order.orderItems.map((p) => (
-                          <div className="flex gap-2" key={p.name}>
+                      {item?.order?.orderItems &&
+                      item?.order?.orderItems.length > 0 ? (
+                        item?.order?.orderItems.map((p) => (
+                          <div className="flex gap-2" key={p._id}>
                             <img
                               src={p.image}
                               alt={p.name}
