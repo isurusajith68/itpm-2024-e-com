@@ -29,6 +29,22 @@ const DashboardSalary = () => {
             </span>
           </div>
         </Link>
+
+        <Link
+          to="/dashboard/fuel"
+          className="bg-blue-700 max-w-[300px] flex-1 h-72 rounded-lg shadow-lg cursor-pointer hover:bg-blue-800 transition duration-300 border-2 border-blue-800"
+        >
+          <div className="flex justify-center items-center h-full flex-col gap-6">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/8664/8664993.png"
+              alt="profile"
+              className="h-32 w-32"
+            />
+            <span className="text-xl font-semibold text-white">
+              Fuel Payments
+            </span>
+          </div>
+        </Link>
       </div>
     </Layout>
   );

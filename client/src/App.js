@@ -44,6 +44,7 @@ import DashboardService from "./pages/chathruwan/service-manager/DashboardServic
 import DashboardServiceList from "./pages/chathruwan/service-manager/DashboardServiceList";
 import UserServicesList from "./pages/chathruwan/service-manager/UserServicesList";
 import RequestFuel from "./pages/Ravishka/delivery-manager/RequestFuel";
+import Fuel from "./pages/shanika/salary-management/Fuel";
 
 function App() {
   return (
@@ -65,6 +66,7 @@ function App() {
         <Route path="/dashboard/staff/list" element={<DashboardStaffList />} />
 
         {/* Salary management */}
+        <Route path="/dashboard/fuel" element={<Fuel />} />
         <Route path="/dashboard/salary" element={<DashboardSalary />} />
         <Route path="/dashboard/salary/add" element={<CalculateSalary />} />
         <Route path="/dashboard/salary/list" element={<SalaryPayments />} />
