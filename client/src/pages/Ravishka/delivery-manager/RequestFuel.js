@@ -19,6 +19,10 @@ import { FaRegEye } from "react-icons/fa";
 import { MdDeleteSweep } from "react-icons/md";
 import OrderDetailsModal from "./OrderDetailsModal";
 import DeleteOrder from "./DeleteOrder";
+import ApplyFuel from "./ApplyFuel";
+import DeleteFuelModel from "./DeleteFuelReqModel";
+import EditFuel from "./EditFuel";
+import { CiEdit } from "react-icons/ci";
 
 const RequestFuel = () => {
   const [fuelRqsts, setFuelRqsts] = useState([]);
@@ -26,14 +30,23 @@ const RequestFuel = () => {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [refetch, setRefetch] = useState(false);
-
+  const { isOpen, onOpenChange } = useDisclosure();
+  const { isOpen: isOpenDelete, onOpenChange: onOpenChangeDelete } =
+    useDisclosure();
+  const { isOpen: isOpenEdit, onOpenChange: onOpenChangeEdit } =
+    useDisclosure();
+  const [clickItemId, setClickItemId] = useState("");
+  const [clickItem, setClickItem] = useState({});
   const rowsPerPage = 3;
   const pages = Math.ceil(fuelRqsts.length / rowsPerPage);
 
   const filterRqst = useMemo(() => {
-    return fuelRqsts?.filter((item) =>
-      item.orderItems[0].name.toLowerCase().includes(search.toLowerCase())
-    );
+    //122 0
+    return fuelRqsts?.filter((item) => {
+      // item?.distance?.parseInt().includes(search);
+      return item?.distance?.toString().includes(search);
+      // console.log(item?.distance, search, item?.distance?.toString().includes(search));
+    });
   }, [search, fuelRqsts]);
 
   const items = useMemo(() => {
@@ -42,17 +55,15 @@ const RequestFuel = () => {
     return filterRqst?.slice(start, end);
   }, [page, filterRqst]);
 
+  console.log(items);
+
   useEffect(() => {
     const fetchSales = async () => {
       try {
         const res = await fetch(`http://localhost:5000/fuel-rqst`);
         const data = await res.json();
-        // const orderSuccess = data.filter((i) => i.orderStatus === "Success");
-        if (Array.isArray(data)) {
-          setFuelRqsts(data);
-        } else {
-          setFuelRqsts([]); // Set an empty array if data is not an array
-        }
+        console.log(data.fuel);
+        setFuelRqsts(data.fuel);
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -61,7 +72,6 @@ const RequestFuel = () => {
 
     fetchSales();
   }, [refetch]);
-
 
   const handelChange = async (e, id) => {
     const res = await axios.put(`http://localhost:5000/orders/${id}`, {
@@ -88,21 +98,23 @@ const RequestFuel = () => {
       {" "}
       <div className="w-full items-center justify-center flex flex-col">
         <div className="flex justify-between p-2">
-          <h1 className="text-center mt-2 font-semibold text-lg">Order List</h1>
+          <h1 className="text-center mt-2 font-semibold text-lg">
+            Fuel Request
+          </h1>
         </div>
         <div className="flex w-[1000px] justify-between">
           <div>
             <Input
               isClearable
               radius="full"
-              placeholder="Search orders..."
+              placeholder="Search by distance"
               startContent={<IoSearch />}
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
           <button
+            onClick={onOpenChange}
             className="bg-blue-500 text-white px-4 text-sm rounded-lg"
-            // onClick={generatePDF}
           >
             Apply Fuel
           </button>
@@ -126,12 +138,9 @@ const RequestFuel = () => {
           >
             <TableHeader>
               <TableColumn>Id</TableColumn>
-              <TableColumn>Order Item</TableColumn>
-              <TableColumn>User name</TableColumn>
-              <TableColumn>Shipping Address</TableColumn>
-              <TableColumn>Payment Method</TableColumn>
-              <TableColumn>Total Price</TableColumn>
-              <TableColumn>Order Status</TableColumn>
+              <TableColumn>cost</TableColumn>
+              <TableColumn>distance</TableColumn>
+              <TableColumn>date</TableColumn>
               <TableColumn>Action</TableColumn>
             </TableHeader>
             <TableBody>
@@ -141,63 +150,34 @@ const RequestFuel = () => {
                   <TableRow key={item._id} className="border-b-1">
                     <TableCell>{index + 1}</TableCell>
                     <TableCell>
-                      {item.orderItems.map((p) => {
-                        return (
-                          <div className="flex gap-2">
-                            <img
-                              src={p.image}
-                              alt={p.name}
-                              className="w-10 h-10"
-                            />
-                            <span>{p.name}</span>
-                          </div>
-                        );
-                      })}
-                    </TableCell>
-                    <TableCell>{item?.user?.username}</TableCell>
-                    <TableCell>{item.shippingAddress.address}</TableCell>
-                    <TableCell>{item.paymentMethod}</TableCell>
-                    <TableCell>
-                      LKR:{" "}
-                      {item.totalPrice.toLocaleString("en-US", {
+                      LKR{" "}
+                      {item.cost.toLocaleString("en-US", {
                         minimumFractionDigits: 2,
                         maximumFractionDigits: 2,
                       })}
                     </TableCell>
+                    <TableCell>{item.distance} KM</TableCell>
                     <TableCell>
-                      <select
-                        className={
-                          item.orderStatus === "Pending"
-                            ? "bg-yellow-500 p-1 rounded-md text-white ring-0"
-                            : item.orderStatus === "Delivered"
-                            ? "bg-green-500 p-1 rounded-md text-white ring-0"
-                            : "bg-red-500 p-1 rounded-md text-white ring-0"
-                        }
-                        value={item.orderStatus}
-                        onChange={(e) => handelChange(e, item._id)}
-                      >
-                        <option value="Pending">Pending</option>
-                        <option value="Delivered">Delivered</option>
-                        <option value="Rejected">Rejected</option>
-                      </select>
+                      {new Date(item.date).toLocaleDateString()}
                     </TableCell>
+
                     <TableCell className="flex gap-6 justify-center items-center h-16">
-                      <Tooltip color="danger" content="Delete supplier">
+                      <Tooltip color="danger" content="Delete ">
                         <span className="text-lg text-danger cursor-pointer active:opacity-50">
                           <MdDeleteSweep
                             onClick={() => {
-                              setClickOrderId(item._id);
+                              setClickItemId(item._id);
                               onOpenChangeDelete();
                             }}
                           />
                         </span>
                       </Tooltip>{" "}
-                      <Tooltip color="secondary" content="More details">
+                      <Tooltip color="secondary" content="Edit">
                         <span className="text-lg text-blue-700 cursor-pointer active:opacity-50">
-                          <FaRegEye
+                          <CiEdit
                             onClick={() => {
-                              setClickOrder(item);
-                              onOpenChangeMoreDetails();
+                              setClickItem(item);
+                              onOpenChangeEdit();
                             }}
                           />
                         </span>
@@ -211,6 +191,19 @@ const RequestFuel = () => {
           </Table>
         </div>
       </div>
+      <ApplyFuel isOpen={isOpen} onOpenChange={onOpenChange} />
+      <EditFuel
+        isOpen={isOpenEdit}
+        onOpenChange={onOpenChangeEdit}
+        clickItem={clickItem}
+        setRefetch={setRefetch}
+      />
+      <DeleteFuelModel
+        isOpen={isOpenDelete}
+        onOpenChange={onOpenChangeDelete}
+        setRefetch={setRefetch}
+        clickItemId={clickItemId}
+      />
     </Layout>
   );
 };
