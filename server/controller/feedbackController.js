@@ -29,8 +29,6 @@ export const createFeedback = async (req, res) => {
   }
 };
 
-
-
 export const deleteFeedback = async (req, res) => {
   try {
     const { id } = req.params;
@@ -38,5 +36,27 @@ export const deleteFeedback = async (req, res) => {
     res.status(200).json({ message: "Feedback deleted successfully" });
   } catch (error) {
     res.status(409).json({ message: error.message });
+  }
+};
+
+export const updateFeedBack = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { rating, feedback } = req.body;
+
+    const feed = await Feedback.findById(id);
+
+    if (!feed) {
+      return res.status(404).json({ message: "Feedback reqst not found" });
+    }
+
+    feed.rating = rating || feed.rating;
+    feed.feedback = feedback || feed.feedback;
+
+    const updateFeedBackReqst = await feed.save();
+
+    res.status(200).json({ feed: updateFeedBackReqst });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };

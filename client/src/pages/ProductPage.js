@@ -4,13 +4,33 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import ProfilePic from "../assets/gamer.png";
 import ReactStars from "react-rating-stars-component";
+import EditFeedback from "./Saranga/feedback-manager/EditFeedback";
+import { useDisclosure } from "@nextui-org/react";
 
 const ProductPage = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
   const [feedbacks, setFeedbacks] = useState([]);
+  const [clickItem, setClickItem] = useState({});
   const navigate = useNavigate();
+  const [refetch, setRefetch] = useState(false);
+
+  const [user, setUser] = useState(null);
+  const { isOpen: isOpenEdit, onOpenChange: onOpenChangeEdit } =
+    useDisclosure();
+
+  useEffect(() => {
+    const user = localStorage.getItem("authUser");
+    if (!user) {
+      window.location.href = "/login";
+    }
+
+    setUser(JSON.parse(user));
+  }, []);
+
+  console.log("user", user);
+
   const handleAddClick = (product) => {
     const sanitizedProduct = {
       _id: product._id,
@@ -37,7 +57,7 @@ const ProductPage = () => {
     localStorage.setItem("cart", JSON.stringify(cart));
     navigate(`/cart`);
   };
-  console.log("feed", feedbacks);
+  
   useEffect(() => {
     setLoading(true);
     const fetchProduct = async () => {
@@ -69,7 +89,7 @@ const ProductPage = () => {
     };
 
     fetchFeedback();
-  }, []);
+  }, [refetch]);
 
   if (loading) {
     return (
@@ -270,6 +290,19 @@ const ProductPage = () => {
                       edit={false}
                       value={feedback.rating}
                     />
+
+                    {feedback.user._id === user._id && (
+                      <button
+                        className="mt-2 text-blue-500 hover:underline"
+                        // onClick={() => handleEditFeedback(feedback)}
+                        onClick={() => {
+                          setClickItem(feedback);
+                          onOpenChangeEdit();
+                        }}
+                      >
+                        Edit
+                      </button>
+                    )}
                   </div>
                 </div>
               ))}
@@ -277,6 +310,12 @@ const ProductPage = () => {
           );
         })}
       </div>
+      <EditFeedback
+        isOpen={isOpenEdit}
+        onOpenChange={onOpenChangeEdit}
+        clickItem={clickItem}
+        setRefetch={setRefetch}
+      />
     </>
   );
 };

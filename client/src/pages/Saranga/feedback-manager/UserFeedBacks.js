@@ -25,6 +25,7 @@ const UserFeedBacks = () => {
   const [search, setSearch] = useState("");
   const [clickFeedbackId, setClickFeedbackId] = useState(null);
 
+
   const rowsPerPage = 3;
   const pages = Math.ceil(feedbacks.length / rowsPerPage);
 
@@ -61,6 +62,8 @@ const UserFeedBacks = () => {
     fetchSales();
   }, []);
   console.log("Feed backs", feedbacks);
+
+
   const generatePDF = () => {
     const doc = new jsPDF();
 
