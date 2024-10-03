@@ -11,8 +11,22 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 const ApplyFuel = ({ isOpen, onOpenChange }) => {
   const [distance, setDistance] = useState("");
-  const [cost, setCost] = useState("");
+  const [cost, setCost] = useState(0);
   const [date, setDate] = useState("");
+
+  const costPerKm = 30;
+  const today = new Date().toISOString().split("T")[0];
+
+  const handleDistanceChange = (e) => {
+    const distanceValue = e.target.value;
+    setDistance(distanceValue);
+
+    if (distanceValue) {
+      setCost(distanceValue * costPerKm);
+    } else {
+      setCost(0);
+    }
+  };
 
   const handleAdd = async () => {
     if (distance === "" || cost === "" || date === "") {
@@ -52,25 +66,28 @@ const ApplyFuel = ({ isOpen, onOpenChange }) => {
                 label="Distance"
                 placeholder="Enter Distance"
                 type="number"
-                onChange={(e) => {
-                  setDistance(e.target.value);
-                }}
+                // onChange={(e) => {
+                //   setDistance(e.target.value);
+                // }}
+                onChange={handleDistanceChange}
               />
               <Input
                 label="Cost"
-                placeholder="Enter Cost"
+                placeholder="Cost will be calculated"
                 type="number"
-                onChange={(e) => {
-                  setCost(e.target.value);
-                }}
+                value={cost} // Automatically calculated cost
+                readOnly
               />
 
               <Input
                 label="Date"
                 placeholder="Enter Date"
                 type="date"
+                max={today}
+                min={today}
+                value={today}
                 onChange={(e) => {
-                  setDate(e.target.value);
+                  setDate(today);
                 }}
               />
             </ModalBody>
